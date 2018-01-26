@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - player
+  - camera
+  - guardia
+  - casa
   layers:
   - Default
   - TransparentFX
@@ -40,4 +44,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Sfondo
+    uniqueID: 1505719643
+    locked: 0
+  - name: Piano1
+    uniqueID: 1252985699
+    locked: 0
+  - name: Piano2
+    uniqueID: 3092324327
+    locked: 0
+  - name: Piano3
+    uniqueID: 469528137
+    locked: 0
+  - name: Primo piano
+    uniqueID: 342072253
     locked: 0
