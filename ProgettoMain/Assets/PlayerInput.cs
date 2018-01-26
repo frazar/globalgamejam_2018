@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerInput : MonoBehaviour {
 
     // Use this for initialization
     
     [Range(1,2)]
     public int player;
-    public float moltiplicatore;// moltiplicagtore del movimento
+    public float MOLTIPLICATORE;// moltiplicagtore del movimento
+
+    Rigidbody2D phy;
 	void Start () {
-		
+        phy = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
@@ -35,6 +37,6 @@ public class PlayerInput : MonoBehaviour {
         }
 
 
-        transform.position += movimento * moltiplicatore;
+        phy.velocity= movimento * MOLTIPLICATORE;
 	}
 }
