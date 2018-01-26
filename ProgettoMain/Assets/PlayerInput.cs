@@ -20,7 +20,7 @@ public class PlayerInput : MonoBehaviour {
 
 
         Vector3 movimento = Vector3.zero;
-        if (Input.GetButton("su"+player))
+        if (Input.GetButton("su" + player))
         {
             movimento += Vector3.up * Time.deltaTime;
         }
