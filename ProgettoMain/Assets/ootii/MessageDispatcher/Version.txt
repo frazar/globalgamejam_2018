@@ -1,3 +1,0 @@
-﻿Event System - Dispatcher
-Version 1.61
-Nov 26, 2017

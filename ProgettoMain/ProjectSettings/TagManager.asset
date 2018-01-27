@@ -4,10 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - player
-  - camera
-  - guardia
-  - casa
+  - Giocatore
+  - Edificio
   layers:
   - Default
   - TransparentFX
@@ -46,17 +44,14 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: Sfondo
-    uniqueID: 1505719643
+    uniqueID: 1609224447
     locked: 0
-  - name: Piano1
-    uniqueID: 1252985699
+  - name: Livello1
+    uniqueID: 2158852283
     locked: 0
-  - name: Piano2
-    uniqueID: 3092324327
+  - name: Livello2
+    uniqueID: 3903064097
     locked: 0
-  - name: Piano3
-    uniqueID: 469528137
-    locked: 0
-  - name: Primo piano
-    uniqueID: 342072253
+  - name: PrimoPiano
+    uniqueID: 2977214875
     locked: 0
