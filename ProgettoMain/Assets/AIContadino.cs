@@ -15,11 +15,16 @@ public class AIContadino : MonoBehaviour {
     public const int VELOCITA_MOVIMENTO = 250;
     private Vector2 verticeDestinazioneAttuale;
 
-    //info contadino
+    //valore dell'infezione del contadino
     private int infezione;
+    private bool morto;
 
 
-	void Start () {		
+	void Start () {
+        //setto i parametri del contadino
+        this.infezione = 0;
+        this.morto = false;
+
         // Per avere un percorso sensato, servono almeno due punti
         Assert.IsTrue(arrayVerticiPercorso.Length >= 2); 
 
@@ -33,7 +38,9 @@ public class AIContadino : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (this.morto){
+            //cosa succede se il contadino muore?
+        }
 	}
 
     void muovitiDestinazioneInvalida() {
@@ -53,4 +60,19 @@ public class AIContadino : MonoBehaviour {
         // Imposta la prossima destinazione
         agent.SetDestination(verticeDestinazioneAttuale);
     }
+
+    //cosa succede se entro in un edificio
+    void onCollisionEnter(Collision c){
+        if (c.GameObject.tag == GestoreTag.Edifici){
+            aumentaInfezione(c.gameObject.GetComponent<Edificio>().getValoreInfezione())
+        }
+    }
+
+    void aumentaInfezione(valore){
+        this.infezione += valore;
+        if (this.infezione >= 100){
+            this.morto = true;
+        }
+    }
+
 }

@@ -6,9 +6,13 @@ public class Edificio : MonoBehaviour {
 	//determina se un edificio è infetto
 	private bool infetto;
 
+	//Indica l'incremento di infezione per i contadini che ci entrano
+	private int valoreInfezione;
+
 	// Use this for initialization
 	void Start () {
 		infetto = false;
+		valoreInfezione = 30;
 	}
 	
 	// Update is called once per frame
@@ -18,5 +22,9 @@ public class Edificio : MonoBehaviour {
 
 	void setInfetto () {
 		infetto = true;
+	}
+
+	public int getValoreInfezione(){
+		return this.valoreInfezione;
 	}
 }
