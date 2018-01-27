@@ -16,18 +16,24 @@ public class AIContadino : MonoBehaviour {
 
     // Array dei vertici del percorso
     public GameObject[] arrayVerticiPercorso; 
-    public const int VELOCITA_MOVIMENTO = 250;
     private Vector2 verticeDestinazioneAttuale;
+
 
     //valore dell'infezione del contadino
     private int infezione;
     private bool morto;
 
+    //valori velocita del contadino
+    public const int VELOCITA_MOVIMENTO = 250;
+    public float moltiplicatoreVelocita;
+    public int velocita; 
 
     void Start () {
         //setto i parametri del contadino
         this.infezione = 0;
         this.morto = false;
+        this.moltiplicatoreVelocita = 1.2f;
+        this.velocita = (int) moltiplicatoreVelocita * VELOCITA_MOVIMENTO;
 
         // Per avere un percorso sensato, servono almeno due punti
         Assert.IsTrue(arrayVerticiPercorso.Length >= 2); 
@@ -42,9 +48,12 @@ public class AIContadino : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
-        // if (this.morto) { 
-        //     //cosa succede se il contadino muore?
-        // }
+        if (this.morto) { 
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            Sprite tomba = Resources.Load("tomba") as Sprite;
+            spriteRenderer.sprite = tomba;
+            agent.Stop();
+        }
     }
 
     void muovitiDestinazioneInvalida() {
@@ -69,6 +78,11 @@ public class AIContadino : MonoBehaviour {
         if (this.infezione >= 100) {
             this.morto = true;
         }
+        if (this.infezione >=50){
+            this.moltiplicatoreVelocita = 0.8f;
+            this.velocita = (int) this.moltiplicatoreVelocita * VELOCITA_MOVIMENTO;
+        }
+
     }
 
     // Cosa succede se entro in un edificio
