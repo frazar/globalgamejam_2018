@@ -5,8 +5,10 @@ using UnityEngine.Assertions;
 
 
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(CapsuleCollider2D))]
 public class AIContadino : MonoBehaviour {
     const int INTERVALLO_CONTADINO_IN_CASA = 5;
+    const int INTERVALLO_DESTINAZIONE_INVALIDA = 3;
 
     // Copia incolla dalla documentazione di PolyNav
     private PolyNavAgent _agent;
@@ -17,7 +19,8 @@ public class AIContadino : MonoBehaviour {
     // Array dei vertici del percorso
     public GameObject[] arrayVerticiPercorso; 
     public const int VELOCITA_MOVIMENTO = 250;
-    private Vector2 verticeDestinazioneAttuale;
+    private int indiceDestinazioneAttuale = -1;
+    private int cicliDestinazioneInvalida = 0;
 
     //valore dell'infezione del contadino
     private int infezione;
@@ -33,7 +36,7 @@ public class AIContadino : MonoBehaviour {
         Assert.IsTrue(arrayVerticiPercorso.Length >= 2); 
 
         // Aggiungi i callback
-        agent.OnDestinationReached += muoviti;
+        agent.OnDestinationReached += muovitiDestinazioneValida;
         agent.OnDestinationInvalid += muovitiDestinazioneInvalida;
 
         // Parti con il primo movimento
@@ -47,21 +50,45 @@ public class AIContadino : MonoBehaviour {
         // }
     }
 
-    void muovitiDestinazioneInvalida() {
-        Debug.Log("Destinazione invalida" + verticeDestinazioneAttuale);
-        muoviti();
-    }
-
     void muoviti() {
+        // Aggiorna indiceDestinazioneAttuale con un numero random che sia tra 0 
+        // e arrayVerticiPercorso.Length, e che sia diverso dal valore attuale
+        while (true) {
+            int r = (int) Random.Range(0, arrayVerticiPercorso.Length);
+            if (indiceDestinazioneAttuale != r) {
+                indiceDestinazioneAttuale = r; 
+                break;            
+            }
+        }
+
         // Seleziona la prossima desitnazione in maniera casuale
-        int r = (int) Random.Range(0, arrayVerticiPercorso.Length);
-        GameObject gameObjectDestinazione = arrayVerticiPercorso[r];
+        GameObject gameObjectDestinazione = arrayVerticiPercorso[indiceDestinazioneAttuale];
 
         // Estrai le coordinate xy del oggetto
-        verticeDestinazioneAttuale = gameObjectDestinazione.transform.position;
+        Vector2 verticeDestinazioneAttuale = gameObjectDestinazione.transform.position;
 
         // Imposta la prossima destinazione
         agent.SetDestination(verticeDestinazioneAttuale);
+    }
+
+
+    IEnumerator waitAndMuoviti() {
+        // Aspetta un intervallo di tempo prima di ripartire dopo una destinazione invalida
+        yield return new WaitForSeconds(INTERVALLO_DESTINAZIONE_INVALIDA);
+
+        muoviti();
+    }
+
+    void muovitiDestinazioneInvalida() {
+        cicliDestinazioneInvalida++;
+        Debug.Log("Destinazione invalida" + arrayVerticiPercorso[indiceDestinazioneAttuale] + "(volta #" + cicliDestinazioneInvalida + ")");
+
+        StartCoroutine(waitAndMuoviti());        
+    }
+
+    void muovitiDestinazioneValida() {
+        cicliDestinazioneInvalida = 0;
+        muoviti();
     }
 
     void aumentaInfezione(int valoreInfezione) {
@@ -83,9 +110,9 @@ public class AIContadino : MonoBehaviour {
             int valoreInfezioneEdificio = edificio.valoreInfezione;
             aumentaInfezione(valoreInfezioneEdificio);
 
-
             // Fai sparire temporaneamnete lo sprite del contadino
             GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<CapsuleCollider2D>().enabled = false; // Disabilita la box così che anche altri contadinin possano entrare
 
             // Stoppa il navigatore
             agent.Stop();
@@ -95,6 +122,7 @@ public class AIContadino : MonoBehaviour {
 
             // Fai riapparire lo sprite e riprendi il percorso
             GetComponent<SpriteRenderer>().enabled = true;
+            GetComponent<CapsuleCollider2D>().enabled = true;
             muoviti();
         }
     }
