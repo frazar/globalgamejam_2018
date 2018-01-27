@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Giocatore
   - Edificio
+  - player
   layers:
   - Default
   - TransparentFX
@@ -43,12 +44,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: New Layer
+  - name: Sfondo
     uniqueID: 3281855169
     locked: 0
-  - name: New Layer
+  - name: Livello1
     uniqueID: 3183195793
     locked: 0
-  - name: New Layer
+  - name: Livello2
     uniqueID: 579174907
+    locked: 0
+  - name: PrimoPiano
+    uniqueID: 238391783
     locked: 0
