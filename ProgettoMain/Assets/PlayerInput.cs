@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour {
     public int Player=1;
     public float Moltiplicatore;// moltiplicagtore del movimento
     Rigidbody2D phy;
-    float tempoIterazioneIniziale;
+    float TempoIterazioneIniziale;
 	void Start () {
         phy = GetComponent<Rigidbody2D>();
 	}
@@ -43,14 +43,37 @@ public class PlayerInput : MonoBehaviour {
 
     void OnTriggerStay2D(Collider2D ColliderIn)
   	{
+    
         switch (ColliderIn.gameObject.tag)
         {
-            case GestoreTag.Edifici:
-                if (Input.GetButtonDown("azione" + Player))
-                {
-                    ColliderIn.gameObject.SendMessage("SetInfetto");
-                }
+            
+            case GestoreTag.Edifici:    
+                ProcessoInfezioneEdifici(ColliderIn.gameObject);
             break;
+        }
+    }
+
+    void ProcessoInfezioneEdifici(GameObject Edificio)
+    {
+        
+        if (Input.GetButtonDown("azione" + Player))
+        {
+            // appena premuto il tasto azione
+          
+            TempoIterazioneIniziale = Time.time;
+        }
+        
+        if (Input.GetButton("azione" + Player))
+        {
+          
+            //il tasto viene tenuto giù 
+
+            Edificio Interazione = Edificio.GetComponentInParent<Edificio>();
+            if (Time.time - TempoIterazioneIniziale>=Interazione.SecondiPerInfezione && !Interazione.getInfetto())
+            {
+         
+                Edificio.SendMessageUpwards("setInfetto",true);
+            }
         }
     }
 
