@@ -59,7 +59,6 @@ public class AIContadino : MonoBehaviour {
 
         // Estrai le coordinate xy del oggetto
         verticeDestinazioneAttuale = gameObjectDestinazione.transform.position;
-        Debug.Log("Prossima fermata" + verticeDestinazioneAttuale);
 
         // Imposta la prossima destinazione
         agent.SetDestination(verticeDestinazioneAttuale);
@@ -73,11 +72,17 @@ public class AIContadino : MonoBehaviour {
     }
 
     // Cosa succede se entro in un edificio
-    IEnumerator onCollisionEnter(Collision c) { 
-        if (c.gameObject.tag == GestoreTag.Edifici) {
+    IEnumerator OnTriggerEnter2D(Collider2D collider2D) { 
+        Debug.Log("Entro in " + collider2D.gameObject.tag);
+
+        if (collider2D.gameObject.tag == GestoreTag.Edifici) {
+            Edificio edificio = collider2D.gameObject.GetComponentInParent<Edificio>();
+            Debug.Log("Entro in " + edificio);
+
             // Aumenta l'infezione del contadino
-            int valoreInfezioneEdificio = c.gameObject.GetComponent<Edificio>().valoreInfezione;
+            int valoreInfezioneEdificio = edificio.valoreInfezione;
             aumentaInfezione(valoreInfezioneEdificio);
+
 
             // Fai sparire temporaneamnete lo sprite del contadino
             GetComponent<SpriteRenderer>().enabled = false;
