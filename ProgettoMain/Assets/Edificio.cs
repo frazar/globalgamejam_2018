@@ -5,7 +5,8 @@ using UnityEngine;
 public class Edificio : MonoBehaviour {
 	//determina se un edificio è infetto
 	private bool infetto;
-
+    [Range(0.5f, 20)]
+    public float SecondiPerInfezione;// numero di secondi necessari per infettare l`edificio
 	// Use this for initialization
 	void Start () {
 		infetto = false;
@@ -16,7 +17,13 @@ public class Edificio : MonoBehaviour {
 		
 	}
 
-	void setInfetto () {
-		infetto = true;
+	void setInfetto (bool tmp) {
+        gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+		infetto = tmp;
 	}
+
+    public bool getInfetto()
+    {
+        return infetto;
+    }
 }
