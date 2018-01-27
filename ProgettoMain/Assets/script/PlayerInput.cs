@@ -7,8 +7,8 @@ public class PlayerInput : MonoBehaviour {
 
     // Use this for initialization    
     [Range(1,2)]
-    public int Player=1;
-    public float Moltiplicatore;// moltiplicagtore del movimento
+    public int Player = 1;
+    public float Moltiplicatore; // moltiplicagtore del movimento
     Rigidbody2D phy;
     float TempoIterazioneIniziale;
 	void Start () {
@@ -66,13 +66,12 @@ public class PlayerInput : MonoBehaviour {
         if (Input.GetButton("azione" + Player))
         {
           
-            //il tasto viene tenuto giù 
+            // Il tasto viene tenuto giù 
 
-            Edificio Interazione = Edificio.GetComponentInParent<Edificio>();
-            if (Time.time - TempoIterazioneIniziale>=Interazione.SecondiPerInfezione && !Interazione.getInfetto())
-            {
-         
-                Edificio.SendMessageUpwards("setInfetto",true);
+            Edificio edificio = Edificio.GetComponentInParent<Edificio>();
+            if (Time.time - TempoIterazioneIniziale >= edificio.SecondiPerInfezione && !edificio.infetto)
+            {   
+                edificio.infetto = true;
             }
         }
     }

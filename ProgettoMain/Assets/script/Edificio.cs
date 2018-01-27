@@ -3,27 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Edificio : MonoBehaviour {
-	//determina se un edificio è infetto
-	private bool infetto;
+    // Determina se un edificio è infetto
+    public bool infetto;
+
     [Range(0.5f, 20)]
     public float SecondiPerInfezione;// numero di secondi necessari per infettare l`edificio
-	// Use this for initialization
-	void Start () {
-		infetto = false;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-	void setInfetto (bool tmp) {
-        gameObject.GetComponent<SpriteRenderer>().color = Color.green;
-		infetto = tmp;
-	}
+    //Indica l'incremento di infezione per i contadini che ci entrano
+    public int valoreInfezione;
 
-    public bool getInfetto()
-    {
-        return infetto;
+    // Use this for initialization
+    void Start () {
+        infetto = false;
+    }
+    
+    // Update is called once per frame
+    void Update () {
+        
     }
 }
