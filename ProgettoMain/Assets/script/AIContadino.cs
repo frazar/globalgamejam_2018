@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 
 
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class AIContadino : MonoBehaviour {
     const int INTERVALLO_CONTADINO_IN_CASA = 5;
     const int INTERVALLO_DESTINAZIONE_INVALIDA = 3;
@@ -13,25 +13,19 @@ public class AIContadino : MonoBehaviour {
     // Copia incolla dalla documentazione di PolyNav
     private PolyNavAgent _agent;
     private PolyNavAgent agent{
-        get {return _agent != null? _agent : _agent = GetComponent<PolyNavAgent>();}
+        get {return _agent != null ? _agent : _agent = GetComponent<PolyNavAgent>();}
     }
 
     // Array dei vertici del percorso
     public GameObject[] arrayVerticiPercorso; 
-    public const int VELOCITA_MOVIMENTO = 250;
     private int indiceDestinazioneAttuale = -1;
     private int cicliDestinazioneInvalida = 0;
 
-    //valore dell'infezione del contadino
-    private int infezione;
-    private bool morto;
-
+    // Valore dell'infezione del contadino
+    private int infezione = 0;
+    private bool morto = false;
 
     void Start () {
-        //setto i parametri del contadino
-        this.infezione = 0;
-        this.morto = false;
-
         // Per avere un percorso sensato, servono almeno due punti
         Assert.IsTrue(arrayVerticiPercorso.Length >= 2); 
 
@@ -45,9 +39,6 @@ public class AIContadino : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
-        // if (this.morto) { 
-        //     //cosa succede se il contadino muore?
-        // }
     }
 
     void muoviti() {
@@ -71,40 +62,39 @@ public class AIContadino : MonoBehaviour {
         agent.SetDestination(verticeDestinazioneAttuale);
     }
 
-
-    IEnumerator waitAndMuoviti() {
+    IEnumerator aspettaERiprova() {
         // Aspetta un intervallo di tempo prima di ripartire dopo una destinazione invalida
         yield return new WaitForSeconds(INTERVALLO_DESTINAZIONE_INVALIDA);
 
         muoviti();
     }
 
+    // Eseguito quando la destinazione impostata è invalida, irraggiungibile 
     void muovitiDestinazioneInvalida() {
-        cicliDestinazioneInvalida++;
-        Debug.Log("Destinazione invalida" + arrayVerticiPercorso[indiceDestinazioneAttuale] + "(volta #" + cicliDestinazioneInvalida + ")");
+        Debug.Log("Destinazione invalida: '" + arrayVerticiPercorso[indiceDestinazioneAttuale] + "' (tentativo #" + cicliDestinazioneInvalida + ")");
 
-        StartCoroutine(waitAndMuoviti());        
+        StartCoroutine(aspettaERiprova());
     }
 
-    void muovitiDestinazioneValida() {
-        cicliDestinazioneInvalida = 0;
+    IEnumerator aspettaInEdificio() {
+        // Aspetta un intervallo di tempo prima di ripartire dopo una destinazione invalida
+        yield return new WaitForSeconds(INTERVALLO_CONTADINO_IN_CASA);
+
+        // Fai riapparire lo sprite
+        GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<BoxCollider2D>().enabled = true;
+
+        // Setta una nuova destinazione
         muoviti();
     }
 
-    void aumentaInfezione(int valoreInfezione) {
-        this.infezione += valoreInfezione;
-        if (this.infezione >= 100) {
-            this.morto = true;
-        }
-    }
+    // Eseguito quando una destinazione valida viene raggiunta
+    void muovitiDestinazioneValida() {
+        GameObject posizioneRaggiunta = arrayVerticiPercorso[indiceDestinazioneAttuale];
 
-    // Cosa succede se entro in un edificio
-    IEnumerator OnTriggerEnter2D(Collider2D collider2D) { 
-        Debug.Log("Entro in " + collider2D.gameObject.tag);
-
-        if (collider2D.gameObject.tag == GestoreTag.Edifici) {
-            Edificio edificio = collider2D.gameObject.GetComponentInParent<Edificio>();
-            Debug.Log("Entro in " + edificio);
+        if (posizioneRaggiunta.tag == GestoreTag.Edifici) {
+            Edificio edificio = posizioneRaggiunta.GetComponentInParent<Edificio>();
+            Debug.Log("Entro in '" + edificio + "'");
 
             // Aumenta l'infezione del contadino
             int valoreInfezioneEdificio = edificio.valoreInfezione;
@@ -112,18 +102,22 @@ public class AIContadino : MonoBehaviour {
 
             // Fai sparire temporaneamnete lo sprite del contadino
             GetComponent<SpriteRenderer>().enabled = false;
-            GetComponent<CapsuleCollider2D>().enabled = false; // Disabilita la box così che anche altri contadinin possano entrare
+            GetComponent<BoxCollider2D>().enabled = false; // Disabilita la box così che anche altri contadinin possano entrare
 
             // Stoppa il navigatore
             agent.Stop();
 
-            // Aspetta un intervallo di tempo prima di far riapparire il contadino
-            yield return new WaitForSeconds(INTERVALLO_CONTADINO_IN_CASA);
-
-            // Fai riapparire lo sprite e riprendi il percorso
-            GetComponent<SpriteRenderer>().enabled = true;
-            GetComponent<CapsuleCollider2D>().enabled = true;
+            // Fai partire il countdown
+            StartCoroutine(aspettaInEdificio());            
+        } else {
             muoviti();
+        }
+    }
+
+    void aumentaInfezione(int valoreInfezione) {
+        this.infezione += valoreInfezione;
+        if (this.infezione >= 100) {
+            this.morto = true;
         }
     }
 }
