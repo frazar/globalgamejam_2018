@@ -5,7 +5,6 @@ using UnityEngine.Assertions;
 
 
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(BoxCollider2D))]
 public class AIContadino : MonoBehaviour {
     const int INTERVALLO_CONTADINO_IN_CASA = 5;
     const int INTERVALLO_DESTINAZIONE_INVALIDA = 3;
@@ -28,6 +27,11 @@ public class AIContadino : MonoBehaviour {
     void Start () {
         // Per avere un percorso sensato, servono almeno due punti
         Assert.IsTrue(arrayVerticiPercorso.Length >= 2); 
+
+        // Verifica che tutti i punti siano impostati
+        for (int i = 1; i < arrayVerticiPercorso.Length; i++) {
+            Assert.IsNotNull(arrayVerticiPercorso[i]);
+        }
 
         // Aggiungi i callback
         agent.OnDestinationReached += muovitiDestinazioneValida;
@@ -71,6 +75,7 @@ public class AIContadino : MonoBehaviour {
 
     // Eseguito quando la destinazione impostata è invalida, irraggiungibile 
     void muovitiDestinazioneInvalida() {
+        cicliDestinazioneInvalida ++;
         Debug.Log("Destinazione invalida: '" + arrayVerticiPercorso[indiceDestinazioneAttuale] + "' (tentativo #" + cicliDestinazioneInvalida + ")");
 
         StartCoroutine(aspettaERiprova());
@@ -82,7 +87,6 @@ public class AIContadino : MonoBehaviour {
 
         // Fai riapparire lo sprite
         GetComponent<SpriteRenderer>().enabled = true;
-        GetComponent<BoxCollider2D>().enabled = true;
 
         // Setta una nuova destinazione
         muoviti();
@@ -90,6 +94,8 @@ public class AIContadino : MonoBehaviour {
 
     // Eseguito quando una destinazione valida viene raggiunta
     void muovitiDestinazioneValida() {
+        cicliDestinazioneInvalida = 0;
+        
         GameObject posizioneRaggiunta = arrayVerticiPercorso[indiceDestinazioneAttuale];
 
         if (posizioneRaggiunta.tag == GestoreTag.Edifici) {
@@ -102,7 +108,6 @@ public class AIContadino : MonoBehaviour {
 
             // Fai sparire temporaneamnete lo sprite del contadino
             GetComponent<SpriteRenderer>().enabled = false;
-            GetComponent<BoxCollider2D>().enabled = false; // Disabilita la box così che anche altri contadinin possano entrare
 
             // Stoppa il navigatore
             agent.Stop();
