@@ -61,16 +61,15 @@ public class PlayerInput : MonoBehaviour {
     void ProcessoInfezioneEdifici(GameObject Edificio)
     {
         
+        // Prima pressione del tasto azione, inizializza timer
         if (Input.GetButtonDown("azione" + playerIndex))
         {
             // appena premuto il tasto azione
           
             TempoIterazioneIniziale = Time.time;
-        }
-        
-        if (Input.GetButton("azione" + playerIndex))
-        {
-          
+        } 
+        else if (Input.GetButton("azione" + playerIndex))
+        {          
             // Il tasto viene tenuto giù 
 
             Edificio edificio = Edificio.GetComponentInParent<Edificio>();
