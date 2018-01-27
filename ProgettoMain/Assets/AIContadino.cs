@@ -20,7 +20,7 @@ public class AIContadino : MonoBehaviour {
     private bool morto;
 
 
-	void Start () {
+    void Start () {
         //setto i parametri del contadino
         this.infezione = 0;
         this.morto = false;
@@ -34,14 +34,14 @@ public class AIContadino : MonoBehaviour {
 
         // Parti con i primi movimenti
         muoviti();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (this.morto){
-            //cosa succede se il contadino muore?
-        }
-	}
+    }
+    
+    // Update is called once per frame
+    void Update () {
+        // if (this.morto) { 
+        //     //cosa succede se il contadino muore?
+        // }
+    }
 
     void muovitiDestinazioneInvalida() {
         Debug.Log("Destinazione invalida" + verticeDestinazioneAttuale);
@@ -61,18 +61,18 @@ public class AIContadino : MonoBehaviour {
         agent.SetDestination(verticeDestinazioneAttuale);
     }
 
-    //cosa succede se entro in un edificio
-    void onCollisionEnter(Collision c){
-        if (c.GameObject.tag == GestoreTag.Edifici){
-            aumentaInfezione(c.gameObject.GetComponent<Edificio>().getValoreInfezione())
-        }
-    }
-
-    void aumentaInfezione(valore){
-        this.infezione += valore;
-        if (this.infezione >= 100){
+    void aumentaInfezione(int valoreInfezione) {
+        this.infezione += valoreInfezione;
+        if (this.infezione >= 100) {
             this.morto = true;
         }
     }
 
+    // Cosa succede se entro in un edificio
+    void onCollisionEnter(Collision c) { 
+        if (c.gameObject.tag == GestoreTag.Edifici) {
+            int valoreInfezioneEdificio = c.gameObject.GetComponent<Edificio>().valoreInfezione;
+            aumentaInfezione(valoreInfezioneEdificio);
+        }
+    }
 }
