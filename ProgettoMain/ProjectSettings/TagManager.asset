@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - player
+  - Giocatore
+  - Edificio
   layers:
   - Default
   - TransparentFX
@@ -41,4 +43,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Sfondo
+    uniqueID: 3149591579
+    locked: 0
+  - name: Paino1
+    uniqueID: 86834907
+    locked: 0
+  - name: Piano2
+    uniqueID: 1583550169
+    locked: 0
+  - name: PrimoPiano
+    uniqueID: 450743477
     locked: 0
