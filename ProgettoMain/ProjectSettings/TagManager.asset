@@ -4,8 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Giocatore
-  - Edificio
   - player
   layers:
   - Default
@@ -43,16 +41,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Sfondo
-    uniqueID: 3281855169
-    locked: 0
-  - name: Livello1
-    uniqueID: 3183195793
-    locked: 0
-  - name: Livello2
-    uniqueID: 579174907
-    locked: 0
-  - name: PrimoPiano
-    uniqueID: 238391783
     locked: 0

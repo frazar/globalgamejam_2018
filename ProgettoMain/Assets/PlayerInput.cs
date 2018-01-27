@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerInput : MonoBehaviour {
 
-    // Use this for initialization
-    
+    // Use this for initialization    
     [Range(1,2)]
     public int Player=1;
     public float Moltiplicatore;// moltiplicagtore del movimento
@@ -18,6 +18,7 @@ public class PlayerInput : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Vector3 movimento = Vector3.zero;
+
         if (Input.GetButton("su" + Player))
         {
             movimento += Vector3.up * Time.deltaTime;
@@ -41,7 +42,7 @@ public class PlayerInput : MonoBehaviour {
 	}
 
     void OnTriggerStay2D(Collider2D ColliderIn)
-    {
+  	{
         switch (ColliderIn.gameObject.tag)
         {
             case GestoreTag.Edifici:
@@ -52,7 +53,5 @@ public class PlayerInput : MonoBehaviour {
             break;
         }
     }
-
-   void 
 
 }
