@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114538944064558752}
   - component: {fileID: 50592781362910326}
   m_Layer: 0
-  m_Name: contadino
+  m_Name: contadinoAstratto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
