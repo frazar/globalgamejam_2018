@@ -9,8 +9,8 @@ public class PlayerInput : MonoBehaviour {
     [Range(1,2)]
     public int Player=1;
     public float Moltiplicatore;// moltiplicagtore del movimento
-
     Rigidbody2D phy;
+    float tempoIterazioneIniziale;
 	void Start () {
         phy = GetComponent<Rigidbody2D>();
 	}
@@ -45,9 +45,14 @@ public class PlayerInput : MonoBehaviour {
         switch (ColliderIn.gameObject.tag)
         {
             case GestoreTag.Edifici:
-                ColliderIn.gameObject.SendMessage("SetInfetto");
+                if (Input.GetButtonDown("azione" + Player))
+                {
+                    ColliderIn.gameObject.SendMessage("SetInfetto");
+                }
             break;
         }
     }
+
+   void 
 
 }
