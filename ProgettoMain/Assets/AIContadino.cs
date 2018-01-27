@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+
+[RequireComponent(typeof(SpriteRenderer))]
 public class AIContadino : MonoBehaviour {
+    const int INTERVALLO_CONTADINO_IN_CASA = 5;
+
     // Copia incolla dalla documentazione di PolyNav
     private PolyNavAgent _agent;
     private PolyNavAgent agent{
@@ -32,7 +36,7 @@ public class AIContadino : MonoBehaviour {
         agent.OnDestinationReached += muoviti;
         agent.OnDestinationInvalid += muovitiDestinazioneInvalida;
 
-        // Parti con i primi movimenti
+        // Parti con il primo movimento
         muoviti();
     }
     
@@ -69,10 +73,24 @@ public class AIContadino : MonoBehaviour {
     }
 
     // Cosa succede se entro in un edificio
-    void onCollisionEnter(Collision c) { 
+    IEnumerator onCollisionEnter(Collision c) { 
         if (c.gameObject.tag == GestoreTag.Edifici) {
+            // Aumenta l'infezione del contadino
             int valoreInfezioneEdificio = c.gameObject.GetComponent<Edificio>().valoreInfezione;
             aumentaInfezione(valoreInfezioneEdificio);
+
+            // Fai sparire temporaneamnete lo sprite del contadino
+            GetComponent<SpriteRenderer>().enabled = false;
+
+            // Stoppa il navigatore
+            agent.Stop();
+
+            // Aspetta un intervallo di tempo prima di far riapparire il contadino
+            yield return new WaitForSeconds(INTERVALLO_CONTADINO_IN_CASA);
+
+            // Fai riapparire lo sprite e riprendi il percorso
+            GetComponent<SpriteRenderer>().enabled = true;
+            muoviti();
         }
     }
 }
