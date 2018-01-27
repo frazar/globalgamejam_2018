@@ -88,6 +88,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -165,6 +166,10 @@ Prefab:
       propertyPath: player
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1358928456556506, guid: 5de04759636b14f90a41531896ef4dab, type: 2}
+      propertyPath: m_TagString
+      value: Giocatore
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5de04759636b14f90a41531896ef4dab, type: 2}
   m_IsPrefabParent: 0
@@ -210,6 +215,15 @@ Prefab:
     - target: {fileID: 1358928456556506, guid: 5de04759636b14f90a41531896ef4dab, type: 2}
       propertyPath: m_Name
       value: player1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1358928456556506, guid: 5de04759636b14f90a41531896ef4dab, type: 2}
+      propertyPath: m_TagString
+      value: Giocatore
+      objectReference: {fileID: 0}
+    - target: {fileID: 114811242924780514, guid: 5de04759636b14f90a41531896ef4dab,
+        type: 2}
+      propertyPath: player
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5de04759636b14f90a41531896ef4dab, type: 2}
@@ -343,7 +357,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1505719643
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ff1ea3fbc98c47149882325e7589c287, type: 3}
   m_Color: {r: 0.03298011, g: 0.44852942, b: 0.17340717, a: 1}
