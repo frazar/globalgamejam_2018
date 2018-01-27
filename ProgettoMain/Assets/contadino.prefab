@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4421635314623794}
   - component: {fileID: 212218553870110312}
   - component: {fileID: 61917292410138714}
+  - component: {fileID: 114210300034949590}
   - component: {fileID: 114150391897842328}
-  - component: {fileID: 114024837952210754}
   m_Layer: 0
   m_Name: contadino
   m_TagString: Untagged
@@ -68,29 +68,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2.6}
   m_EdgeRadius: 0
---- !u!114 &114024837952210754
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1051991559357378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc9ee126ed4deda4a955a0fe2770f112, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  delayBetweenPoints: 0
-  objs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &114150391897842328
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,6 +95,18 @@ MonoBehaviour:
   restrict: 1
   closerPointOnInvalid: 1
   debugPath: 1
+--- !u!114 &114210300034949590
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051991559357378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebeb2e4b62ccd41358ba3bdf27df1c66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrayVerticiPercorso: []
 --- !u!212 &212218553870110312
 SpriteRenderer:
   m_ObjectHideFlags: 1
