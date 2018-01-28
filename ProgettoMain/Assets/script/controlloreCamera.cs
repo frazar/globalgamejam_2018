@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class controlloreCamera : MonoBehaviour {
 
@@ -9,7 +10,11 @@ public class controlloreCamera : MonoBehaviour {
     public GameObject player1, player2;
     // Use this for initialization
 	void Start () {
-      
+        player1 = GameObject.Find("player1");
+        player2 = GameObject.Find("player2");
+
+        Assert.IsNotNull(player1);
+        Assert.IsNotNull(player2);
 	}
 	
 	// Update is called once per frame
