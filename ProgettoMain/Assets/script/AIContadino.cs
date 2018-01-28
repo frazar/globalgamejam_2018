@@ -4,12 +4,16 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 
+[RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 public class AIContadino : MonoBehaviour {
     const int INTERVALLO_CONTADINO_IN_CASA = 2;
     const int INTERVALLO_DESTINAZIONE_INVALIDA = 3;
     const int INTERVALLO_MORTE = 2;
+    const int TIMEOUT_ARRIVO_DESTINAZIONE = 20;
+    const float THRESHOLD_DISTANZA_RAGGIUNTA = 0.5f; 
     const float MAX_SPEED_REDUCTION_FRACTION = 0.5f;
+
 
     public Sprite spriteTomba;
 
@@ -102,7 +106,7 @@ public class AIContadino : MonoBehaviour {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = spriteTomba;      
 
-        GetComponent<BoxCollider2D>().enabled = false; // Non è un ostacolo
+        GetComponent<CircleCollider2D>().enabled = false; // Non è un ostacolo
         fov.SetActive(false); // Disattiva il fov 
     }
 
@@ -148,7 +152,7 @@ public class AIContadino : MonoBehaviour {
         if (!this.morto) {
             // Fai riapparire lo sprite
             GetComponent<SpriteRenderer>().enabled = true;
-            GetComponent<BoxCollider2D>().enabled = true;
+            GetComponent<CircleCollider2D>().enabled = true;
             fov.SetActive(true);
 
             // Setta una nuova destinazione
@@ -157,14 +161,30 @@ public class AIContadino : MonoBehaviour {
     }
 
     // Eseguito quando una destinazione valida viene raggiunta
+    // ATTENZIONE: se la destinazione impostata non è valida, il navigatore 
+    // imposta una definizione valida più vicina come destinazione. 
+    // Una volta raggiunta questa, muovitiDestinazioneValida() viene chiamata, 
+    // ma la destinazione raggiunta non è esattamente quella impostata 
+    // originariamente!
     void muovitiDestinazioneValida() {
+        if (morto) return;
+
         counterDestinazioneInvalida = 0;
-        if (!inseguimento)
+        if (inseguimento)
         {
-            GameObject posizioneRaggiunta = arrayVerticiPercorso[indiceDestinazioneAttuale];
-            if (posizioneRaggiunta.tag == GestoreTag.Edifici)
+            // raggiunto ultimo punto conosciuto del nemico 
+            muoviti();
+        }
+        else
+        {
+            GameObject desinazioneImpostata = arrayVerticiPercorso[indiceDestinazioneAttuale];
+            // Calcola la distanza effettiva dalla destinazione impostata
+            float disttanzaDaDestinazione = (desinazioneImpostata.transform.position - this.gameObject.transform.position).magnitude;
+            Debug.Log("'" + this.gameObject.name + "' è a distanza " + disttanzaDaDestinazione + " dalla destinazione.");
+
+            if (desinazioneImpostata.tag == GestoreTag.Edifici && disttanzaDaDestinazione < THRESHOLD_DISTANZA_RAGGIUNTA)
             {
-                Edificio edificio = posizioneRaggiunta.GetComponentInParent<Edificio>();
+                Edificio edificio = desinazioneImpostata.GetComponentInParent<Edificio>();
                 Debug.Log("Entro in '" + edificio + "'");
 
                 // Aumenta l'infezione del contadino se l'edificio è infetto
@@ -174,11 +194,9 @@ public class AIContadino : MonoBehaviour {
                     aumentaInfezione(valoreInfezioneEdificio);
                 }
 
-                if (morto) return;
-
                 // Fai sparire temporaneamnete lo sprite del contadino
                 GetComponent<SpriteRenderer>().enabled = false;
-                GetComponent<BoxCollider2D>().enabled = false;
+                GetComponent<CircleCollider2D>().enabled = false;
                 fov.SetActive(false);
                 // Stoppa il navigatore
                 
@@ -193,11 +211,6 @@ public class AIContadino : MonoBehaviour {
                 aggiornaVelocitaMovimento();
                 muoviti();
             }
-        }
-        else
-        {
-            // raggiunto ultimo punto conosciuto del nemico 
-            muoviti();
         }
     }
 
