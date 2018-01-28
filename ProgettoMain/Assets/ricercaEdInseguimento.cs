@@ -9,28 +9,49 @@ public class ricercaEdInseguimento : MonoBehaviour {
      static bool ricercati=true;// se true i player vengono attaccati
     PolyNavAgent agent;
     Rigidbody2D phy;
+    GameObject target;
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("collisione rilevata");
         if (collision.tag == "player")
         {
             // il player è nel fov adesso devo controllare se è visibile
-            Vector3 posizionePlayer=Vector3.zero;
-          
-            if (playerVisibile(collision.gameObject, ref posizionePlayer)) {
-                // player visibile 
-                if (ricercati)
+            if (target==null || target==collision.gameObject) {
+                target = collision.gameObject;
+                Vector3 posizionePlayer = Vector3.zero;
+
+                if (playerVisibile(collision.gameObject, ref posizionePlayer))
                 {
-                    // attacco il player
-                   
-                    this.gameObject.SendMessage("NemicoAvvistato", posizionePlayer);
+                    // player visibile 
+                    if (ricercati)
+                    {
+                        // attacco il player
+
+                        this.gameObject.SendMessage("NemicoAvvistato", posizionePlayer);
+                    }
+                }
+                else
+                {
+                    target = null;
                 }
             }
         }
     }
 
-     void Awake()
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "player")
+        {
+            if (collision.gameObject == target)
+            {
+                 target = null;
+            }
+         
+        }
+
+    }
+
+            void Awake()
     {
         agent = GetComponent<PolyNavAgent>();
         phy = GetComponent<Rigidbody2D>();
