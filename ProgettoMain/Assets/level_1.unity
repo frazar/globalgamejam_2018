@@ -2745,7 +2745,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   autoRegenerateInterval: 60
-  radiusOffset: 1
+  radiusOffset: 0.1
 --- !u!1 &2093658595 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1796200081760596, guid: 408118066e0950c45b86d5e9e03e6f84,
