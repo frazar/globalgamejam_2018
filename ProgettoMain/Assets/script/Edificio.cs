@@ -7,10 +7,10 @@ public class Edificio : MonoBehaviour {
     public bool infetto = false;
 
     [Range(0.5f, 20)]
-    public float SecondiPerInfezione;// numero di secondi necessari per infettare l`edificio
+    public float SecondiPerInfezione; // numero di secondi necessari per infettare l`edificio
 
     //Indica l'incremento di infezione per i contadini che ci entrano
-    public int valoreInfezione;
+    public int valoreInfezione = 50;
 
     // Use this for initialization
     void Start () {
