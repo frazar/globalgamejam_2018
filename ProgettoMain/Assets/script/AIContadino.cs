@@ -7,39 +7,45 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(SpriteRenderer))]
 public class AIContadino : MonoBehaviour {
     const int INTERVALLO_CONTADINO_IN_CASA = 5;
+    const int INTERVALLO_DESTINAZIONE_INVALIDA = 3;
 
     // Copia incolla dalla documentazione di PolyNav
     private PolyNavAgent _agent;
+    GameObject fov;
     private PolyNavAgent agent{
-        get {return _agent != null? _agent : _agent = GetComponent<PolyNavAgent>();}
+        get {return _agent != null ? _agent : _agent = GetComponent<PolyNavAgent>();}
     }
 
     // Array dei vertici del percorso
     public GameObject[] arrayVerticiPercorso; 
     private Vector2 verticeDestinazioneAttuale;
 
+    // Indice dell'elemento di arrayVerticiPercorso settato come prossima destinazione
+    private int indiceDestinazioneAttuale = -1;
 
-    //valore dell'infezione del contadino
-    private int infezione;
-    private bool morto;
+    // Numero di eventi DestinazioneInvalida consecutivi
+    private int counterDestinazioneInvalida = 0;
 
-    //valori velocita del contadino
-    public const int VELOCITA_MOVIMENTO = 250;
-    public float moltiplicatoreVelocita;
-    public int velocita; 
+    // Valore dell'infezione del contadino
+    private int infezione = 0;
+    private bool morto = false;
+
+    // Flag per la modalità inseguimento
+    bool inseguimento = false;
 
     void Start () {
-        //setto i parametri del contadino
-        this.infezione = 0;
-        this.morto = false;
-        this.moltiplicatoreVelocita = 1.2f;
-        this.velocita = (int) moltiplicatoreVelocita * VELOCITA_MOVIMENTO;
-
         // Per avere un percorso sensato, servono almeno due punti
-        Assert.IsTrue(arrayVerticiPercorso.Length >= 2); 
+        Assert.IsTrue(arrayVerticiPercorso.Length >= 2);
+
+        fov = gameObject.transform.Find("fov").gameObject;
+        
+        // Verifica che tutti i punti siano impostati
+        for (int i = 1; i < arrayVerticiPercorso.Length; i++) {
+            Assert.IsNotNull(arrayVerticiPercorso[i]);
+        }
 
         // Aggiungi i callback
-        agent.OnDestinationReached += muoviti;
+        agent.OnDestinationReached += muovitiDestinazioneValida;
         agent.OnDestinationInvalid += muovitiDestinazioneInvalida;
 
         // Parti con il primo movimento
@@ -49,25 +55,42 @@ public class AIContadino : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         if (this.morto) { 
+            agent.Stop();
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
             Sprite tomba = Resources.Load("tomba") as Sprite;
             spriteRenderer.sprite = tomba;
-            agent.Stop();
         }
     }
 
     void muovitiDestinazioneInvalida() {
         Debug.Log("Destinazione invalida" + verticeDestinazioneAttuale);
         muoviti();
+        if (agent.isActiveAndEnabled )
+        {
+           
+            Vector3 dirNemico = agent.movingDirection;
+           // fov.transform.rotation = Quaternion.Euler(dirNemico);
+            float rotationZ = Mathf.Atan2(dirNemico.y, dirNemico.x) * Mathf.Rad2Deg;
+            fov.gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ+180);
+        }
     }
 
     void muoviti() {
+        // Aggiorna indiceDestinazioneAttuale con un numero random che sia tra 0 
+        // e arrayVerticiPercorso.Length, e che sia diverso dal valore attuale
+        while (true) {
+            int r = (int) Random.Range(0, arrayVerticiPercorso.Length);
+            if (indiceDestinazioneAttuale != r) {
+                indiceDestinazioneAttuale = r; 
+                break;            
+            }
+        }
+
         // Seleziona la prossima desitnazione in maniera casuale
-        int r = (int) Random.Range(0, arrayVerticiPercorso.Length);
-        GameObject gameObjectDestinazione = arrayVerticiPercorso[r];
+        GameObject gameObjectDestinazione = arrayVerticiPercorso[indiceDestinazioneAttuale];
 
         // Estrai le coordinate xy del oggetto
-        verticeDestinazioneAttuale = gameObjectDestinazione.transform.position;
+        Vector2 verticeDestinazioneAttuale = gameObjectDestinazione.transform.position;
 
         // Imposta la prossima destinazione
         agent.SetDestination(verticeDestinazioneAttuale);
@@ -77,39 +100,88 @@ public class AIContadino : MonoBehaviour {
         this.infezione += valoreInfezione;
         if (this.infezione >= 100) {
             this.morto = true;
-        }
-        if (this.infezione >=50){
-            this.moltiplicatoreVelocita = 0.8f;
-            this.velocita = (int) this.moltiplicatoreVelocita * VELOCITA_MOVIMENTO;
-        }
-
+        } 
     }
 
-    // Cosa succede se entro in un edificio
-    IEnumerator OnTriggerEnter2D(Collider2D collider2D) { 
-        Debug.Log("Entro in " + collider2D.gameObject.tag);
+    IEnumerator aspettaERiprova() {
+        // Aspetta un intervallo di tempo prima di ripartire dopo una destinazione invalida
+        yield return new WaitForSeconds(INTERVALLO_DESTINAZIONE_INVALIDA);
 
-        if (collider2D.gameObject.tag == GestoreTag.Edifici) {
-            Edificio edificio = collider2D.gameObject.GetComponentInParent<Edificio>();
-            Debug.Log("Entro in " + edificio);
+        muoviti();
+    }
 
-            // Aumenta l'infezione del contadino
-            int valoreInfezioneEdificio = edificio.valoreInfezione;
-            aumentaInfezione(valoreInfezioneEdificio);
+    // Eseguito quando la destinazione impostata è invalida, irraggiungibile 
+    void muovitiDestinazioneInvalida() {
+        counterDestinazioneInvalida ++;
+        Debug.Log("Destinazione invalida: '" + arrayVerticiPercorso[indiceDestinazioneAttuale] + "' (tentativo #" + counterDestinazioneInvalida + ")");
 
+        StartCoroutine(aspettaERiprova());
+    }
 
-            // Fai sparire temporaneamnete lo sprite del contadino
-            GetComponent<SpriteRenderer>().enabled = false;
+    IEnumerator aspettaInEdificio() {
+        // Aspetta un intervallo di tempo prima di ripartire dopo una destinazione invalida
+        yield return new WaitForSeconds(INTERVALLO_CONTADINO_IN_CASA);
 
-            // Stoppa il navigatore
-            agent.Stop();
+        // Fai riapparire lo sprite
+        GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<BoxCollider2D>().enabled = true;
+        fov.SetActive(true);
+        // Setta una nuova destinazione
+        muoviti();
+    }
 
-            // Aspetta un intervallo di tempo prima di far riapparire il contadino
-            yield return new WaitForSeconds(INTERVALLO_CONTADINO_IN_CASA);
+    // Eseguito quando una destinazione valida viene raggiunta
+    void muovitiDestinazioneValida() {
+        counterDestinazioneInvalida = 0;
+        if (!inseguimento)
+        {
+            GameObject posizioneRaggiunta = arrayVerticiPercorso[indiceDestinazioneAttuale];
+            if (posizioneRaggiunta.tag == GestoreTag.Edifici)
+            {
+                Edificio edificio = posizioneRaggiunta.GetComponentInParent<Edificio>();
+                Debug.Log("Entro in '" + edificio + "'");
 
-            // Fai riapparire lo sprite e riprendi il percorso
-            GetComponent<SpriteRenderer>().enabled = true;
+                // Aumenta l'infezione del contadino
+                int valoreInfezioneEdificio = edificio.valoreInfezione;
+                aumentaInfezione(valoreInfezioneEdificio);
+
+                // Fai sparire temporaneamnete lo sprite del contadino
+                GetComponent<SpriteRenderer>().enabled = false;
+                GetComponent<BoxCollider2D>().enabled = false;
+                fov.SetActive(false);
+                // Stoppa il navigatore
+                
+                agent.Stop();
+
+                // Fai partire il countdown
+                StartCoroutine(aspettaInEdificio());
+            }
+            else
+            {
+                muoviti();
+            }
+        }else
+        {
+            // raggiunto ultimo punto conosciuto del nemico 
+            
             muoviti();
         }
+    }
+
+    void aumentaInfezione(int valoreInfezione) {
+        this.infezione += valoreInfezione;
+        if (this.infezione >= 100) {
+            this.morto = true;
+        }
+    }
+
+    void NemicoAvvistato(Vector3 PosNemico)
+    {
+        //rincorrro il nemico 
+        agent.maxSpeed = 4;
+        agent.SetDestination(PosNemico);
+   
+        inseguimento = true;
+
     }
 }
