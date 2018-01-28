@@ -6,8 +6,9 @@ using UnityEngine.Assertions;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class AIContadino : MonoBehaviour {
-    const int INTERVALLO_CONTADINO_IN_CASA = 5;
+    const int INTERVALLO_CONTADINO_IN_CASA = 2;
     const int INTERVALLO_DESTINAZIONE_INVALIDA = 3;
+    const int INTERVALLO_MORTE = 2;
     const float MAX_SPEED_REDUCTION_FRACTION = 0.5f;
 
     public Sprite spriteTomba;
@@ -105,22 +106,31 @@ public class AIContadino : MonoBehaviour {
         fov.SetActive(false); // Disattiva il fov 
     }
 
+    IEnumerator aspettaEMuori() {
+        yield return new WaitForSeconds(INTERVALLO_MORTE + INTERVALLO_CONTADINO_IN_CASA);
+
+        muori();
+    }
+
     void aumentaInfezione(int valoreInfezione) {
         this.infezione += valoreInfezione;
 
         if (this.infezione >= 100) {
-            muori();
-        } else {
-            Debug.Log("'" + this.gameObject.name + "' ha ora livello infezione " + this.infezione);
-            aggiornaVelocitaMovimento();
-        }
+            StartCoroutine(aspettaEMuori());
+        } 
+
+        Debug.Log("'" + this.gameObject.name + "' ha ora livello infezione " + this.infezione);
+        aggiornaVelocitaMovimento();
     }
 
     IEnumerator aspettaERiprova() {
         // Aspetta un intervallo di tempo prima di ripartire dopo una destinazione invalida
         yield return new WaitForSeconds(INTERVALLO_DESTINAZIONE_INVALIDA);
 
-        muoviti();
+        if (!this.morto) {
+            muoviti();
+        }
+
     }
 
     // Eseguito quando la destinazione impostata è invalida, irraggiungibile 
@@ -135,12 +145,15 @@ public class AIContadino : MonoBehaviour {
         // Aspetta un intervallo di tempo prima di ripartire dopo una destinazione invalida
         yield return new WaitForSeconds(INTERVALLO_CONTADINO_IN_CASA);
 
-        // Fai riapparire lo sprite
-        GetComponent<SpriteRenderer>().enabled = true;
-        GetComponent<BoxCollider2D>().enabled = true;
-        fov.SetActive(true);
-        // Setta una nuova destinazione
-        muoviti();
+        if (!this.morto) {
+            // Fai riapparire lo sprite
+            GetComponent<SpriteRenderer>().enabled = true;
+            GetComponent<BoxCollider2D>().enabled = true;
+            fov.SetActive(true);
+
+            // Setta una nuova destinazione
+            muoviti();
+        }
     }
 
     // Eseguito quando una destinazione valida viene raggiunta
