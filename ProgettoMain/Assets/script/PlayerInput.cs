@@ -53,6 +53,7 @@ public class PlayerInput : MonoBehaviour {
         {
             
             case GestoreTag.Edifici:    
+                //
                 ProcessoInfezioneEdifici(ColliderIn.gameObject);
             break;
         }
@@ -64,18 +65,18 @@ public class PlayerInput : MonoBehaviour {
         // Prima pressione del tasto azione, inizializza timer
         if (Input.GetButtonDown("azione" + playerIndex))
         {
-            // appena premuto il tasto azione
-          
+            // appena premuto il tasto azione          
             TempoIterazioneIniziale = Time.time;
         } 
         else if (Input.GetButton("azione" + playerIndex))
         {          
             // Il tasto viene tenuto giù 
+            Debug.Log("Infettato");
 
             Edificio edificio = Edificio.GetComponentInParent<Edificio>();
             if (Time.time - TempoIterazioneIniziale >= edificio.SecondiPerInfezione && !edificio.infetto)
             {   
-                edificio.infetto = true;
+                edificio.infetta();
             }
         }
     }
