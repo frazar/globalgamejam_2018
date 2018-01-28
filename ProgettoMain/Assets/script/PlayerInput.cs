@@ -150,11 +150,11 @@ public class PlayerInput : MonoBehaviour {
         else if (Input.GetButton("azione" + playerIndex))
         {          
             // Il tasto viene tenuto giù 
-            Debug.Log("Infettato");
 
             Edificio edificio = Edificio.GetComponentInParent<Edificio>();
             if (Time.time - TempoIterazioneIniziale >= edificio.SecondiPerInfezione && !edificio.infetto)
             {   
+                Debug.Log("'" + edificio.name + "' è stato infettato!");
                 edificio.infetta();
             }
         }

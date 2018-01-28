@@ -8,10 +8,14 @@ using UnityEngine.Assertions;
 public class AIContadino : MonoBehaviour {
     const int INTERVALLO_CONTADINO_IN_CASA = 5;
     const int INTERVALLO_DESTINAZIONE_INVALIDA = 3;
+    const float MAX_SPEED_REDUCTION_FRACTION = 0.5f;
+
+    public Sprite spriteTomba;
 
     // Copia incolla dalla documentazione di PolyNav
     private PolyNavAgent _agent;
     GameObject fov;
+    GameObject target;
     private PolyNavAgent agent{
         get {return _agent != null ? _agent : _agent = GetComponent<PolyNavAgent>();}
     }
@@ -27,6 +31,7 @@ public class AIContadino : MonoBehaviour {
     private int counterDestinazioneInvalida = 0;
 
     // Valore dell'infezione del contadino
+    [Range(0, 100)]
     private int infezione = 0;
     private bool morto = false;
 
@@ -55,21 +60,10 @@ public class AIContadino : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         if (this.morto) { 
-            agent.Stop();
-            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-            Sprite tomba = Resources.Load("tomba") as Sprite;
-            spriteRenderer.sprite = tomba;
-        }
-    }
-
-    void muovitiDestinazioneInvalida() {
-        Debug.Log("Destinazione invalida" + verticeDestinazioneAttuale);
-        muoviti();
-        if (agent.isActiveAndEnabled )
-        {
-           
+        } 
+        else if (agent.isActiveAndEnabled )
+        {           
             Vector3 dirNemico = agent.movingDirection;
-           // fov.transform.rotation = Quaternion.Euler(dirNemico);
             float rotationZ = Mathf.Atan2(dirNemico.y, dirNemico.x) * Mathf.Rad2Deg;
             fov.gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ+180);
         }
@@ -96,11 +90,30 @@ public class AIContadino : MonoBehaviour {
         agent.SetDestination(verticeDestinazioneAttuale);
     }
 
+    void muori() {
+        Debug.Log("'" + this.gameObject.name + "' è morto!");
+        
+        this.morto = true;            
+        
+        agent.Stop(); // Ferma il navigatore
+
+        // Sostituisci lo sprite con una tomba
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = spriteTomba;      
+
+        GetComponent<BoxCollider2D>().enabled = false; // Non è un ostacolo
+        fov.SetActive(false); // Disattiva il fov 
+    }
+
     void aumentaInfezione(int valoreInfezione) {
         this.infezione += valoreInfezione;
+
         if (this.infezione >= 100) {
-            this.morto = true;
-        } 
+            muori();
+        } else {
+            Debug.Log("'" + this.gameObject.name + "' ha ora livello infezione " + this.infezione);
+            aggiornaVelocitaMovimento();
+        }
     }
 
     IEnumerator aspettaERiprova() {
@@ -145,6 +158,8 @@ public class AIContadino : MonoBehaviour {
                 int valoreInfezioneEdificio = edificio.valoreInfezione;
                 aumentaInfezione(valoreInfezioneEdificio);
 
+                if (morto) return;
+
                 // Fai sparire temporaneamnete lo sprite del contadino
                 GetComponent<SpriteRenderer>().enabled = false;
                 GetComponent<BoxCollider2D>().enabled = false;
@@ -159,21 +174,14 @@ public class AIContadino : MonoBehaviour {
             else
             {
                 inseguimento = false;
-                modalitaStandard();
+                aggiornaVelocitaMovimento();
                 muoviti();
             }
-        }else
+        }
+        else
         {
             // raggiunto ultimo punto conosciuto del nemico 
-            
             muoviti();
-        }
-    }
-
-    void aumentaInfezione(int valoreInfezione) {
-        this.infezione += valoreInfezione;
-        if (this.infezione >= 100) {
-            this.morto = true;
         }
     }
 
@@ -184,18 +192,77 @@ public class AIContadino : MonoBehaviour {
         agent.decelerationRate = 0;
         agent.SetDestination(PosNemico);
         inseguimento = true;
-
     }
 
-    void modalitaInseguimento()
+    // Aggiorna la velocità di movimento del contadino in base a modalità 
+    // (inseguimento o non) e livello malattia 
+    void aggiornaVelocitaMovimento() {
+
+        if (inseguimento) {
+            agent.maxSpeed = 5.5f;
+            agent.slowingDistance = 0;
+        } else {
+            agent.maxSpeed = 3.5f;
+            agent.slowingDistance = 2;
+        }
+
+        agent.maxSpeed *= 1f - MAX_SPEED_REDUCTION_FRACTION * this.infezione / 100;
+    }
+
+
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        agent.maxSpeed = 7;
-        agent.slowingDistance = 2;
-        
+        if (collision.tag == "player")
+        {
+            // il player è nel fov adesso devo controllare se è visibile
+            if (target == null || target == collision.gameObject) {
+                target = collision.gameObject;
+                Vector3 posizionePlayer = Vector3.zero;
+
+                if (playerVisibile(collision.gameObject, ref posizionePlayer))
+                {
+                    // player visibile 
+                    if (inseguimento)
+                    {
+                        // attacco il player
+                        NemicoAvvistato(posizionePlayer);
+                    }
+                }
+                else
+                {
+                    target = null;
+                }
+            }
+        }
     }
 
-    void modalitaStandard() {
-        agent.maxSpeed = 3.5f;
-        agent.slowingDistance = 2;
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "player")
+        {
+            if (collision.gameObject == target)
+            {
+                target = null;
+            }         
+        }
+    }
+
+    bool playerVisibile(GameObject player, ref Vector3 posNemico)
+    {
+        Vector2 direzione = player.transform.position-transform.position;
+        //Debug.DrawRay(transform.position,direzione,Color.red,4);
+        RaycastHit2D hit = Physics2D.Raycast(player.transform.position,direzione);
+        if (hit.collider != null)
+        {
+            if (hit.collider.CompareTag("player"))
+            {
+                // il player è in vista       
+         
+                posNemico = hit.point;
+                return true;
+            }
+            
+        }
+        return false;
     }
 }
