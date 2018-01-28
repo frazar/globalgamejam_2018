@@ -154,9 +154,12 @@ public class AIContadino : MonoBehaviour {
                 Edificio edificio = posizioneRaggiunta.GetComponentInParent<Edificio>();
                 Debug.Log("Entro in '" + edificio + "'");
 
-                // Aumenta l'infezione del contadino
-                int valoreInfezioneEdificio = edificio.valoreInfezione;
-                aumentaInfezione(valoreInfezioneEdificio);
+                // Aumenta l'infezione del contadino se l'edificio è infetto
+                if (edificio.infetto) 
+                {
+                    int valoreInfezioneEdificio = edificio.valoreInfezione;
+                    aumentaInfezione(valoreInfezioneEdificio);
+                }
 
                 if (morto) return;
 
