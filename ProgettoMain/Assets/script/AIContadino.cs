@@ -13,6 +13,8 @@ public class AIContadino : MonoBehaviour {
     const int TIMEOUT_ARRIVO_DESTINAZIONE = 20;
     const float THRESHOLD_DISTANZA_RAGGIUNTA = 0.7f; 
     const float MAX_SPEED_REDUCTION_FRACTION = 0.5f;
+    const float VELOCITA_INSEGUIMENTO = 4.5f;
+    const float VELOCITA_NON_INSEGUIMENTO = 3f;
 
     // Copia incolla dalla documentazione di PolyNav
     Animator animazioniController;
@@ -278,10 +280,10 @@ public class AIContadino : MonoBehaviour {
     void aggiornaVelocitaMovimento() {
 
         if (inseguimento) {
-            agent.maxSpeed = 5.5f;
+            agent.maxSpeed = VELOCITA_INSEGUIMENTO;
             agent.slowingDistance = 0;
         } else {
-            agent.maxSpeed = 3.5f;
+            agent.maxSpeed = VELOCITA_NON_INSEGUIMENTO;
             agent.slowingDistance = 2;
         }
 
