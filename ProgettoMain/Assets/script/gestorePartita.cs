@@ -17,10 +17,11 @@ public class gestorePartita {
     public static void AggiungiNPCInfetto() {
         npcInfetti++;
     }
-    public static void AggiuntinpcMorto()
+
+    public static void AggingiNPCMorto()
     {
         npcMorti++;
-        if (npcMorti ==numeroNPC)
+        if (npcMorti == numeroNPC)
         {
             Debug.Log("VITTORIA");  
         }
