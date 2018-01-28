@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4499150613701124}
   - component: {fileID: 212230053147592932}
   m_Layer: 0
-  m_Name: tombaAstratto
+  m_Name: tombaContadinoAstratto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
