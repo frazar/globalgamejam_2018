@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 212131088505201004}
   - component: {fileID: 114071956204177650}
   - component: {fileID: 50461763029534066}
-  - component: {fileID: 114435702952821962}
   - component: {fileID: 95935121337334984}
   - component: {fileID: 61236090256900808}
   m_Layer: 8
@@ -119,23 +118,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerIndex: 2
-  Moltiplicatore: 200
+  VELOCITA: 200
   tombaAstratto: {fileID: 1774628065122914, guid: cf399a1c83bbb4bb280c418b623eeb3b,
     type: 2}
---- !u!114 &114435702952821962
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1751364652080932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc4f7f33d8fc7c0419b2308165807ce0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shapeType: 1
-  extraOffset: 0
-  invertPolygon: 0
 --- !u!212 &212131088505201004
 SpriteRenderer:
   m_ObjectHideFlags: 1

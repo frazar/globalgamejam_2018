@@ -14,8 +14,9 @@ public class Gestoreui : MonoBehaviour {
 	// Update is called once per frame
 	void Vittoria () {
         menuwin.SetActive(true);
+       
 	}
-    void Sconditta()
+    void Sconfitta()
     {
         menulose.SetActive(true);
     }
