@@ -88,7 +88,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -700,6 +699,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114918141294313560, guid: 408118066e0950c45b86d5e9e03e6f84,
+        type: 2}
+      propertyPath: valoreInfezione
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 68603017369497482, guid: 408118066e0950c45b86d5e9e03e6f84, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 408118066e0950c45b86d5e9e03e6f84, type: 2}
@@ -921,6 +925,11 @@ Prefab:
     - target: {fileID: 4104859133235354, guid: 1491bd2a3b1624a4487a2189f46c7cff, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114761050071244662, guid: 1491bd2a3b1624a4487a2189f46c7cff,
+        type: 2}
+      propertyPath: valoreInfezione
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 68345073898948210, guid: 1491bd2a3b1624a4487a2189f46c7cff, type: 2}
@@ -1205,6 +1214,11 @@ Prefab:
     - target: {fileID: 4017475867008028, guid: 408118066e0950c45b86d5e9e03e6f84, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114918141294313560, guid: 408118066e0950c45b86d5e9e03e6f84,
+        type: 2}
+      propertyPath: valoreInfezione
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 68603017369497482, guid: 408118066e0950c45b86d5e9e03e6f84, type: 2}
@@ -1514,6 +1528,16 @@ Prefab:
     - target: {fileID: 4351023644320082, guid: b0dab933c65fa024f95a39148f6f8917, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114099947132709314, guid: b0dab933c65fa024f95a39148f6f8917,
+        type: 2}
+      propertyPath: valoreInfezione
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114099947132709314, guid: b0dab933c65fa024f95a39148f6f8917,
+        type: 2}
+      propertyPath: infetto
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 68549119912874550, guid: b0dab933c65fa024f95a39148f6f8917, type: 2}
@@ -2089,6 +2113,11 @@ Prefab:
     - target: {fileID: 4302482174052756, guid: 1491bd2a3b1624a4487a2189f46c7cff, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114761050071244662, guid: 1491bd2a3b1624a4487a2189f46c7cff,
+        type: 2}
+      propertyPath: valoreInfezione
+      value: 23
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 68345073898948210, guid: 1491bd2a3b1624a4487a2189f46c7cff, type: 2}
