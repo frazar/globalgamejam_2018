@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour {
     // Use this for initialization    
     [Range(1,2)]
     public int playerIndex = 1;
-    [Range(1,2000)]
+    [Range(1,12000)]
     public float Moltiplicatore; // moltiplicagtore del movimento
     Rigidbody2D phy;
     float TempoIterazioneIniziale;
@@ -74,8 +74,8 @@ public class PlayerInput : MonoBehaviour {
 
             Edificio edificio = Edificio.GetComponentInParent<Edificio>();
             if (Time.time - TempoIterazioneIniziale >= edificio.SecondiPerInfezione && !edificio.infetto)
-            {   
-                edificio.infetto = true;
+            {
+                edificio.setInfetto(true);
             }
         }
     }
