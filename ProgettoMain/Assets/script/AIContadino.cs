@@ -11,11 +11,8 @@ public class AIContadino : MonoBehaviour {
     const int INTERVALLO_DESTINAZIONE_INVALIDA = 3;
     const int INTERVALLO_MORTE = 2;
     const int TIMEOUT_ARRIVO_DESTINAZIONE = 20;
-    const float THRESHOLD_DISTANZA_RAGGIUNTA = 0.6f; 
+    const float THRESHOLD_DISTANZA_RAGGIUNTA = 0.7f; 
     const float MAX_SPEED_REDUCTION_FRACTION = 0.5f;
-
-
-    public Sprite spriteTomba;
 
     // Copia incolla dalla documentazione di PolyNav
     Animator animazioniController;
@@ -26,6 +23,8 @@ public class AIContadino : MonoBehaviour {
     private PolyNavAgent agent{
         get {return _agent != null ? _agent : _agent = GetComponent<PolyNavAgent>();}
     }
+    
+    public GameObject tombaAstratto;
 
     // Array dei vertici del percorso
     public GameObject[] arrayVerticiPercorso; 
@@ -46,7 +45,10 @@ public class AIContadino : MonoBehaviour {
     bool inseguimento = false;
     int direzioneVecchia = -1;
 
+
     void Start () {
+        Assert.IsNotNull(tombaAstratto);
+
         spriteController = GetComponent<SpriteRenderer>();
         // Per avere un percorso sensato, servono almeno due punti
         Assert.IsTrue(arrayVerticiPercorso.Length >= 2);
@@ -151,12 +153,12 @@ public class AIContadino : MonoBehaviour {
         
         agent.Stop(); // Ferma il navigatore
 
-        // Sostituisci lo sprite con una tomba
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = spriteTomba;      
+        Instantiate(tombaAstratto, 
+                    this.gameObject.transform.position, 
+                    Quaternion.identity);
 
-        GetComponent<CircleCollider2D>().enabled = false; // Non è un ostacolo
-        fov.SetActive(false); // Disattiva il fov 
+        // Deactivate the contadino gameObject               
+        this.gameObject.SetActive(false); // Disattiva il fov 
     }
 
     IEnumerator aspettaEMuori() {
@@ -229,7 +231,7 @@ public class AIContadino : MonoBehaviour {
             GameObject desinazioneImpostata = arrayVerticiPercorso[indiceDestinazioneAttuale];
             // Calcola la distanza effettiva dalla destinazione impostata
             float disttanzaDaDestinazione = (desinazioneImpostata.transform.position - this.gameObject.transform.position).magnitude;
-            Debug.Log("'" + this.gameObject.name + "' è a distanza " + disttanzaDaDestinazione + " dalla destinazione.");
+            
 
             if (desinazioneImpostata.tag == GestoreTag.Edifici && disttanzaDaDestinazione < THRESHOLD_DISTANZA_RAGGIUNTA)
             {
@@ -256,8 +258,7 @@ public class AIContadino : MonoBehaviour {
             }
             else
             {
-                inseguimento = false;
-                aggiornaVelocitaMovimento();
+                Debug.Log("'" + this.gameObject.name + "' non è davvero arrivato, la sua distanza dalla destinazione è " + disttanzaDaDestinazione);
                 muoviti();
             }
         }
