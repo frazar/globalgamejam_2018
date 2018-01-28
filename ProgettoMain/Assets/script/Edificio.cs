@@ -1,10 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Edificio : MonoBehaviour {
     // Determina se un edificio è infetto
-    public bool infetto;
+    public bool infetto = false;
 
     [Range(0.5f, 20)]
     public float SecondiPerInfezione;// numero di secondi necessari per infettare l`edificio
@@ -14,24 +14,20 @@ public class Edificio : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        infetto = false;
     }
     
     // Update is called once per frame
-    void Update () {
-        
+    void Update () {        
     }
 
-    public void setInfetto(bool Infetto) {
-        if (!Infetto)
-        {
-            this.GetComponent<SpriteRenderer>().color = Color.white;
+    public void infetta() {
+        this.infetto = true;
+        // Show the red cross on the first door
+        this.gameObject.transform.Find("bloodcross").GetComponent<SpriteRenderer>().enabled = true;
+
+        // Show the red cross on the second door, if anyW
+        if (this.gameObject.transform.Find("bloodcross2") != null) {
+            this.gameObject.transform.Find("bloodcross2").GetComponent<SpriteRenderer>().enabled = true;
         }
-        else
-        {
-         this.GetComponent<SpriteRenderer>().color= Color.green;
-        }
-        this.infetto = Infetto;
-       
     }
 }
