@@ -119,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerIndex: 2
   VELOCITA: 200
-  tombaAstratto: {fileID: 1774628065122914, guid: cf399a1c83bbb4bb280c418b623eeb3b,
+  tombaAstratto: {fileID: 1875455641089886, guid: 422c66a82d45848d1ae54b6ea65b04a5,
     type: 2}
 --- !u!212 &212131088505201004
 SpriteRenderer:
