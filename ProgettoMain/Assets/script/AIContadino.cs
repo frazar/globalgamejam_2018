@@ -42,7 +42,7 @@ public class AIContadino : MonoBehaviour {
     private bool morto = false;
 
     // Flag per la modalità inseguimento
-    bool inseguimento = false;
+    public bool inseguimento = false;
     int direzioneVecchia = -1;
 
 
@@ -158,7 +158,7 @@ public class AIContadino : MonoBehaviour {
                     Quaternion.identity);
 
         // Deactivate the contadino gameObject               
-        this.gameObject.SetActive(false); // Disattiva il fov 
+        this.gameObject.SetActive(false);
     }
 
     IEnumerator aspettaEMuori() {

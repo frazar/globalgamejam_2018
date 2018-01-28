@@ -5,4 +5,5 @@ using UnityEngine;
 public static class GestoreTag  {
 	public const string Giocatori = "Giocatore";
     public const string Edifici = "Edificio";
+    public const string Contadini = "Contadini";
 }
