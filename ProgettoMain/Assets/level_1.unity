@@ -434,7 +434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infetto: 0
   SecondiPerInfezione: 5
-  valoreInfezione: 50
+  valoreInfezione: 100
 --- !u!61 &342486838
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -459,7 +459,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 4.969836, y: 5.4454126}
-  m_EdgeRadius: 100
+  m_EdgeRadius: 0
 --- !u!1 &394619542
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,7 +783,7 @@ Prefab:
     - target: {fileID: 114330928346018398, guid: 408118066e0950c45b86d5e9e03e6f84,
         type: 2}
       propertyPath: valoreInfezione
-      value: 80
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 408118066e0950c45b86d5e9e03e6f84, type: 2}
@@ -1132,7 +1132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &985401946
 BoxCollider2D:
@@ -1359,7 +1359,7 @@ Transform:
   - {fileID: 844693600}
   - {fileID: 942186583}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1092659051
 Prefab:
@@ -1502,8 +1502,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114918141294313560, guid: 408118066e0950c45b86d5e9e03e6f84,
         type: 2}
+      propertyPath: infetto
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114918141294313560, guid: 408118066e0950c45b86d5e9e03e6f84,
+        type: 2}
       propertyPath: valoreInfezione
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 68603017369497482, guid: 408118066e0950c45b86d5e9e03e6f84, type: 2}
@@ -1606,9 +1611,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a1990a30428684a98822754fb24759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infetto: 0
+  infetto: 1
   SecondiPerInfezione: 0.5
-  valoreInfezione: 10
+  valoreInfezione: 100
 --- !u!212 &1161243060
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1701,7 +1706,7 @@ Prefab:
     - target: {fileID: 114974207076942034, guid: b0dab933c65fa024f95a39148f6f8917,
         type: 2}
       propertyPath: valoreInfezione
-      value: 80
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b0dab933c65fa024f95a39148f6f8917, type: 2}
@@ -1902,7 +1907,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1436430563
 Prefab:
@@ -1941,7 +1946,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4520778021377068, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114486778709083582, guid: b226074dc89912d4f89b83e4ecfcf824,
         type: 2}
@@ -2405,11 +2410,6 @@ Prefab:
     - target: {fileID: 4302482174052756, guid: 1491bd2a3b1624a4487a2189f46c7cff, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114761050071244662, guid: 1491bd2a3b1624a4487a2189f46c7cff,
-        type: 2}
-      propertyPath: valoreInfezione
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 68345073898948210, guid: 1491bd2a3b1624a4487a2189f46c7cff, type: 2}

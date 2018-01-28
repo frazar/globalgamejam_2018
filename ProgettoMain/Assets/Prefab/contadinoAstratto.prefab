@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebeb2e4b62ccd41358ba3bdf27df1c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tombaAstratto: {fileID: 1672981744809900, guid: e9708a823a8c04b78a3982ebbbea859e,
+  tombaAstratto: {fileID: 1495783428152312, guid: 1b344cdf094e348999eb89faedd40420,
     type: 2}
   arrayVerticiPercorso:
   - {fileID: 0}
@@ -203,7 +203,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  inseguimento: 1
+  inseguiSeVisibile: 1
 --- !u!212 &212084905883654924
 SpriteRenderer:
   m_ObjectHideFlags: 1
