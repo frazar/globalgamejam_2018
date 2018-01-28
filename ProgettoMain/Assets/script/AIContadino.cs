@@ -11,7 +11,7 @@ public class AIContadino : MonoBehaviour {
     const int INTERVALLO_DESTINAZIONE_INVALIDA = 3;
     const int INTERVALLO_MORTE = 2;
     const int TIMEOUT_ARRIVO_DESTINAZIONE = 20;
-    const float THRESHOLD_DISTANZA_RAGGIUNTA = 0.5f; 
+    const float THRESHOLD_DISTANZA_RAGGIUNTA = 0.6f; 
     const float MAX_SPEED_REDUCTION_FRACTION = 0.5f;
 
 
