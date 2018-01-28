@@ -7,6 +7,7 @@ TagManager:
   - player
   - Giocatore
   - Edificio
+  - Contadini
   layers:
   - Default
   - TransparentFX

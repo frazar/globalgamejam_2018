@@ -138,6 +138,13 @@ public class PlayerInput : MonoBehaviour {
     }
 
 
+    private void OnCollisionEnter2D(Collision collision)
+    {
+      //  if (collision.gameObject.CompareTag("Contadini")) {
+      //      if (collision.gameObject.GetComponent<AIContadino>().) { }
+        //}   
+    }
+
     void ProcessoInfezioneEdifici(GameObject Edificio)
     {
         
