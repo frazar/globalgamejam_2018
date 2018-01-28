@@ -83,7 +83,7 @@ public class AIContadino : MonoBehaviour {
 
     void gestisciAnimazioni() {
         Vector2 direzioneMovimento = agent.movingDirection;
-        bool siMuove=true;
+        bool siMuove = true;
         int direzione = -1;
         bool uscita = false;
         if (direzioneMovimento == Vector2.zero)
