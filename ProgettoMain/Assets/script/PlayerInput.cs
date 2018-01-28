@@ -34,24 +34,24 @@ public class PlayerInput : MonoBehaviour {
 
         if (Input.GetButton("su" + playerIndex))
         {
-            movimento += Vector3.up * Time.deltaTime;
+            movimento += Vector3.up;
         }
 
         if (Input.GetButton("sotto" + playerIndex)) 
         {
-            movimento += Vector3.down * Time.deltaTime;
+            movimento += Vector3.down;
         }
         if (Input.GetButton("destra" + playerIndex))
         {
             gameObject.transform.localEulerAngles = new Vector3 (0, 180, 0);
-            movimento += Vector3.right * Time.deltaTime;
+            movimento += Vector3.right;
         }
         if (Input.GetButton("sinistra" + playerIndex))
         {
             gameObject.transform.localEulerAngles = new Vector3 (0, 0, 0);
-            movimento += Vector3.left * Time.deltaTime;
+            movimento += Vector3.left;
         }
-        phy.velocity= movimento * Moltiplicatore;
+        phy.velocity = Vector3.Normalize(movimento) * Moltiplicatore  * Time.deltaTime;
 	}
 
     void OnTriggerStay2D(Collider2D ColliderIn)
