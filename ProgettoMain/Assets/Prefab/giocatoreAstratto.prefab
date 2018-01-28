@@ -120,6 +120,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerIndex: 2
   Moltiplicatore: 200
+  tombaAstratto: {fileID: 1774628065122914, guid: cf399a1c83bbb4bb280c418b623eeb3b,
+    type: 2}
 --- !u!114 &114435702952821962
 MonoBehaviour:
   m_ObjectHideFlags: 1

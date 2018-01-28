@@ -26,11 +26,15 @@ public class PlayerInput : MonoBehaviour {
     bool moving = false;
     bool exit = false;
 
+    public GameObject tombaAstratto;
+
 	void Start () {
         phy = GetComponent<Rigidbody2D>();
 
         testoSuggerimentoInfezione = GameObject.Find("/Main Camera/Canvas/TestoSuggerimentoInfezione");
         Assert.IsNotNull(testoSuggerimentoInfezione);
+        
+        Assert.IsNotNull(tombaAstratto);
 
         // Check that the playerIndex property was set correctly
         Assert.IsTrue(this.name == "player" + playerIndex);
@@ -137,6 +141,18 @@ public class PlayerInput : MonoBehaviour {
         }        
     }
 
+    void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.tag == GestoreTag.Contadini && 
+            collision.gameObject.GetComponent<AIContadino>().inseguimento) {
+
+            Instantiate(tombaAstratto, 
+                        this.gameObject.transform.position, 
+                        Quaternion.identity);
+
+            // Deactivate the contadino gameObject               
+            this.gameObject.SetActive(false);
+        }
+    }   
 
     void ProcessoInfezioneEdifici(GameObject Edificio)
     {
