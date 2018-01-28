@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.Assertions;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator))]
 public class PlayerInput : MonoBehaviour {
 
     // Use this for initialization    
@@ -16,6 +18,14 @@ public class PlayerInput : MonoBehaviour {
     float TempoIterazioneIniziale;
     private GameObject testoSuggerimentoInfezione;
 
+    // Animation
+    SpriteRenderer sprite;
+    Animator animator;
+    int oldDirection = -1;
+    int direction = 0;
+    bool moving = false;
+    bool exit = false;
+
 	void Start () {
         phy = GetComponent<Rigidbody2D>();
 
@@ -24,34 +34,75 @@ public class PlayerInput : MonoBehaviour {
 
         // Check that the playerIndex property was set correctly
         Assert.IsTrue(this.name == "player" + playerIndex);
+
+        sprite = GetComponents<SpriteRenderer>()[0];
+        animator = GetComponent<Animator>();
 	}
 
 
 	
 	// Update is called once per frame
 	void Update () {
+        exit = false;
+
         Vector3 movimento = Vector3.zero;
 
         if (Input.GetButton("su" + playerIndex))
         {
+            // Animazione
+            direction = 1;
+            moving = true;
+
+            // Movimento
             movimento += Vector3.up;
         }
 
         if (Input.GetButton("sotto" + playerIndex)) 
         {
+            // Animazione
+            direction = 0;
+            moving = true;
+
+            // Movimento
             movimento += Vector3.down;
         }
+
         if (Input.GetButton("destra" + playerIndex))
         {
-            gameObject.transform.localEulerAngles = new Vector3 (0, 180, 0);
+            // Animazione
+            direction = 2;
+            sprite.flipX = false;
+            moving = true;
+
+            // Muovimento
             movimento += Vector3.right;
         }
         if (Input.GetButton("sinistra" + playerIndex))
         {
-            gameObject.transform.localEulerAngles = new Vector3 (0, 0, 0);
+            // Animazione
+            direction = 2;
+            sprite.flipX = true;
+            moving = true;
+
+            // Movimento
             movimento += Vector3.left;
         }
+
+        if (movimento == Vector3.zero) {
+            // Fermo
+            moving = false;
+            exit = true;
+        }
+
+        // Movimento
         phy.velocity = Vector3.Normalize(movimento) * Moltiplicatore  * Time.deltaTime;
+
+        // Animazione
+        exit = exit || (oldDirection != direction);
+        oldDirection = direction;
+        animator.SetBool("Exit", exit);
+        animator.SetBool("IsMoving", moving);
+        animator.SetInteger("Direction", direction);
 	}
 
     void OnTriggerStay2D(Collider2D ColliderIn)
