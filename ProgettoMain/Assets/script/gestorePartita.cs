@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class gestorePartita {
 
-   
+    public static GameObject menuwin;
     static int numeroNPC;
     static int npcInfetti;
     static int npcMorti;
@@ -17,12 +17,16 @@ public class gestorePartita {
     public static void AggiungiNPCInfetto() {
         npcInfetti++;
     }
-    public static void AggiuntinpcMorto()
+
+    public static void AggingiNPCMorto()
     {
         npcMorti++;
-        if (npcMorti ==numeroNPC)
+        if (npcMorti == numeroNPC)
         {
-            Debug.Log("VITTORIA");  
+            GameObject.Find("Canvas").SendMessage("Vittoria");
+          
         }
     }
+
+    
 }

@@ -44,12 +44,16 @@ public class AIContadino : MonoBehaviour {
     private bool morto = false;
 
     // Flag per la modalità inseguimento
-    public bool inseguimento = false;
+    public bool inseguiSeVisibile = true;
+    private bool inInseguimento = false;
     int direzioneVecchia = -1;
 
 
     void Start () {
         Assert.IsNotNull(tombaAstratto);
+
+        // Registra l'NPC
+        gestorePartita.AggingiNPC();
 
         spriteController = GetComponent<SpriteRenderer>();
         // Per avere un percorso sensato, servono almeno due punti
@@ -66,6 +70,7 @@ public class AIContadino : MonoBehaviour {
         agent.OnDestinationReached += muovitiDestinazioneValida;
         agent.OnDestinationInvalid += muovitiDestinazioneInvalida;
         animazioniController = GetComponent<Animator>();
+
         // Parti con il primo movimento
         muoviti();
     }
@@ -150,6 +155,8 @@ public class AIContadino : MonoBehaviour {
 
     void muori() {
         Debug.Log("'" + this.gameObject.name + "' è morto!");
+
+        gestorePartita.AggingiNPCMorto();
         
         this.morto = true;            
         
@@ -170,6 +177,10 @@ public class AIContadino : MonoBehaviour {
     }
 
     void aumentaInfezione(int valoreInfezione) {
+        if (this.infezione == 0 && valoreInfezione >= 0) {
+            gestorePartita.AggiungiNPCInfetto();
+        }
+
         this.infezione += valoreInfezione;
 
         if (this.infezione >= 100) {
@@ -187,13 +198,18 @@ public class AIContadino : MonoBehaviour {
         if (!this.morto) {
             muoviti();
         }
-
     }
 
     // Eseguito quando la destinazione impostata è invalida, irraggiungibile 
     void muovitiDestinazioneInvalida() {
-        counterDestinazioneInvalida ++;
+        counterDestinazioneInvalida++;
         Debug.Log("Destinazione invalida: '" + arrayVerticiPercorso[indiceDestinazioneAttuale] + "' (tentativo #" + counterDestinazioneInvalida + ")");
+
+        if (inInseguimento) {
+            Debug.Log("'" + this.gameObject.name + "' has perso l'obiettivo");
+            inInseguimento = false;
+            aggiornaVelocitaMovimento();
+        }
 
         StartCoroutine(aspettaERiprova());
     }
@@ -223,68 +239,57 @@ public class AIContadino : MonoBehaviour {
         if (morto) return;
 
         counterDestinazioneInvalida = 0;
-        if (inseguimento)
+
+        GameObject desinazioneImpostata = arrayVerticiPercorso[indiceDestinazioneAttuale];
+        // Calcola la distanza effettiva dalla destinazione impostata
+        float disttanzaDaDestinazione = (desinazioneImpostata.transform.position - this.gameObject.transform.position).magnitude;
+        
+        if (desinazioneImpostata.tag == GestoreTag.Edifici && disttanzaDaDestinazione < THRESHOLD_DISTANZA_RAGGIUNTA)
         {
-            // raggiunto ultimo punto conosciuto del nemico 
-            muoviti();
+            Edificio edificio = desinazioneImpostata.GetComponentInParent<Edificio>();
+            Debug.Log("Entro in '" + edificio + "'");
+
+            // Aumenta l'infezione del contadino se l'edificio è infetto
+            if (edificio.infetto) 
+            {
+                int valoreInfezioneEdificio = edificio.valoreInfezione;
+                aumentaInfezione(valoreInfezioneEdificio);
+            }
+
+            // Fai sparire temporaneamnete lo sprite del contadino
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<CircleCollider2D>().enabled = false;
+            fov.SetActive(false);
+            // Stoppa il navigatore
+            
+            agent.Stop();
+
+            // Fai partire il countdown
+            StartCoroutine(aspettaInEdificio());
         }
         else
         {
-            GameObject desinazioneImpostata = arrayVerticiPercorso[indiceDestinazioneAttuale];
-            // Calcola la distanza effettiva dalla destinazione impostata
-            float disttanzaDaDestinazione = (desinazioneImpostata.transform.position - this.gameObject.transform.position).magnitude;
-            
-
-            if (desinazioneImpostata.tag == GestoreTag.Edifici && disttanzaDaDestinazione < THRESHOLD_DISTANZA_RAGGIUNTA)
-            {
-                Edificio edificio = desinazioneImpostata.GetComponentInParent<Edificio>();
-                Debug.Log("Entro in '" + edificio + "'");
-
-                // Aumenta l'infezione del contadino se l'edificio è infetto
-                if (edificio.infetto) 
-                {
-                    int valoreInfezioneEdificio = edificio.valoreInfezione;
-                    aumentaInfezione(valoreInfezioneEdificio);
-                }
-
-                // Fai sparire temporaneamnete lo sprite del contadino
-                GetComponent<SpriteRenderer>().enabled = false;
-                GetComponent<CircleCollider2D>().enabled = false;
-                fov.SetActive(false);
-                // Stoppa il navigatore
-                
-                agent.Stop();
-
-                // Fai partire il countdown
-                StartCoroutine(aspettaInEdificio());
-            }
-            else
-            {
-                Debug.Log("'" + this.gameObject.name + "' non è davvero arrivato, la sua distanza dalla destinazione è " + disttanzaDaDestinazione);
-                muoviti();
-            }
+            Debug.Log("'" + this.gameObject.name + "' non è un edificio vicino. Seleziono nuova destinazione.");
+            muoviti();
         }
     }
 
-    void NemicoAvvistato(Vector3 PosNemico)
+    void iniziaInseguimento(Vector3 PosNemico)
     {
-        //rincorrro il nemico 
-        agent.maxSpeed = 6;
-        agent.decelerationRate = 0;
+        // Rincorrro il nemico 
+        aggiornaVelocitaMovimento();
+        inInseguimento = true;
         agent.SetDestination(PosNemico);
-        inseguimento = true;
     }
 
     // Aggiorna la velocità di movimento del contadino in base a modalità 
     // (inseguimento o non) e livello malattia 
     void aggiornaVelocitaMovimento() {
 
-        if (inseguimento) {
+        if (inInseguimento) {
             agent.maxSpeed = VELOCITA_INSEGUIMENTO;
-            agent.slowingDistance = 0;
         } else {
             agent.maxSpeed = VELOCITA_NON_INSEGUIMENTO;
-            agent.slowingDistance = 2;
         }
 
         agent.maxSpeed *= 1f - MAX_SPEED_REDUCTION_FRACTION * this.infezione / 100;
@@ -295,6 +300,7 @@ public class AIContadino : MonoBehaviour {
     {
         if (collision.tag == "player")
         {
+            Debug.Log("Player visible!");
             // il player è nel fov adesso devo controllare se è visibile
             if (target == null || target == collision.gameObject) {
                 target = collision.gameObject;
@@ -302,11 +308,15 @@ public class AIContadino : MonoBehaviour {
 
                 if (playerVisibile(collision.gameObject, ref posizionePlayer))
                 {
+                    Debug.Log("Player visible 2!");
+
                     // player visibile 
-                    if (inseguimento)
+                    if (inseguiSeVisibile)
                     {
+                        Debug.Log("Inizia inseguimento!");
+
                         // attacco il player
-                        NemicoAvvistato(posizionePlayer);
+                        iniziaInseguimento(posizionePlayer);
                     }
                 }
                 else
