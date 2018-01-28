@@ -203,6 +203,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  inseguimento: 1
 --- !u!212 &212084905883654924
 SpriteRenderer:
   m_ObjectHideFlags: 1
