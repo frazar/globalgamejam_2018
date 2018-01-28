@@ -130,6 +130,8 @@ public class AIContadino : MonoBehaviour {
             }
             else
             {
+                inseguimento = false;
+                modalitaStandard();
                 muoviti();
             }
         }else
@@ -150,10 +152,22 @@ public class AIContadino : MonoBehaviour {
     void NemicoAvvistato(Vector3 PosNemico)
     {
         //rincorrro il nemico 
-        agent.maxSpeed = 4;
+        agent.maxSpeed = 6;
+        agent.decelerationRate = 0;
         agent.SetDestination(PosNemico);
-   
         inseguimento = true;
 
+    }
+
+    void modalitaInseguimento()
+    {
+        agent.maxSpeed = 7;
+        agent.slowingDistance = 2;
+        
+    }
+
+    void modalitaStandard() {
+        agent.maxSpeed = 3.5f;
+        agent.slowingDistance = 2;
     }
 }
