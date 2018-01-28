@@ -19,9 +19,25 @@ public class controlloreCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-        Vector3 pos1 = player1.transform.position;
-        Vector3 pos2 = player2.transform.position;
-        Vector3 media = new Vector3((pos1.x + pos2.x) / 2, (pos1.y + pos2.y) / 2, -10);
-        transform.position = media;
+        Vector3 pos1,pos2,target;
+        target = Vector3.zero;
+      
+        pos2 = player2.transform.position;
+        pos1 = player1.transform.position;
+
+        if(player1.activeSelf && player2.activeSelf)
+        {
+            target= new Vector3((pos1.x + pos2.x) / 2, (pos1.y + pos2.y) / 2, -10); 
+        }else
+        {
+            if (player1.activeSelf)
+            {
+                target = new Vector3(pos1.x, pos1.y, -10);
+            }else  if (player2.activeSelf)
+            {
+                target = new Vector3(pos2.x, pos2.y, -10);
+            }
+         }
+        transform.position = target;
 	}
 }
