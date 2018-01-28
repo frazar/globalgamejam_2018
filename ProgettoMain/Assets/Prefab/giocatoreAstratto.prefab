@@ -23,8 +23,8 @@ GameObject:
   - component: {fileID: 114071956204177650}
   - component: {fileID: 50461763029534066}
   - component: {fileID: 114435702952821962}
-  - component: {fileID: 61682073060064996}
   - component: {fileID: 95935121337334984}
+  - component: {fileID: 61236090256900808}
   m_Layer: 8
   m_Name: giocatoreAstratto
   m_TagString: player
@@ -65,7 +65,7 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61682073060064996
+--- !u!61 &61236090256900808
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -77,7 +77,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.09}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -88,7 +88,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.85, y: 2.72}
+  m_Size: {x: 1.11, y: 2.68}
   m_EdgeRadius: 0
 --- !u!95 &95935121337334984
 Animator:
