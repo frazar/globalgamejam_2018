@@ -250,88 +250,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!1001 &93481328
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4520778021377068, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 4.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 4520778021377068, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 7.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4520778021377068, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4520778021377068, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4520778021377068, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4520778021377068, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4520778021377068, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4520778021377068, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 114486778709083582, guid: b226074dc89912d4f89b83e4ecfcf824,
-        type: 2}
-      propertyPath: arrayVerticiPercorso.Array.data[0]
-      value: 
-      objectReference: {fileID: 622209799}
-    - target: {fileID: 114486778709083582, guid: b226074dc89912d4f89b83e4ecfcf824,
-        type: 2}
-      propertyPath: arrayVerticiPercorso.Array.data[1]
-      value: 
-      objectReference: {fileID: 622209799}
-    - target: {fileID: 114486778709083582, guid: b226074dc89912d4f89b83e4ecfcf824,
-        type: 2}
-      propertyPath: arrayVerticiPercorso.Array.data[2]
-      value: 
-      objectReference: {fileID: 1592000081}
-    - target: {fileID: 114486778709083582, guid: b226074dc89912d4f89b83e4ecfcf824,
-        type: 2}
-      propertyPath: arrayVerticiPercorso.Array.data[3]
-      value: 
-      objectReference: {fileID: 773403381}
-    - target: {fileID: 114486778709083582, guid: b226074dc89912d4f89b83e4ecfcf824,
-        type: 2}
-      propertyPath: arrayVerticiPercorso.Array.data[4]
-      value: 
-      objectReference: {fileID: 1688789169}
-    - target: {fileID: 114486778709083582, guid: b226074dc89912d4f89b83e4ecfcf824,
-        type: 2}
-      propertyPath: arrayVerticiPercorso.Array.data[5]
-      value: 
-      objectReference: {fileID: 1719942386}
-    - target: {fileID: 114486778709083582, guid: b226074dc89912d4f89b83e4ecfcf824,
-        type: 2}
-      propertyPath: arrayVerticiPercorso.Array.data[6]
-      value: 
-      objectReference: {fileID: 2093658595}
-    - target: {fileID: 1553658772163076, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
-      propertyPath: m_Name
-      value: contadinoAstratto (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 0}
-  m_ParentPrefab: {fileID: 100100000, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &184512484
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,7 +459,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 4.969836, y: 5.4454126}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 100
 --- !u!1 &394619542
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,7 +783,7 @@ Prefab:
     - target: {fileID: 114330928346018398, guid: 408118066e0950c45b86d5e9e03e6f84,
         type: 2}
       propertyPath: valoreInfezione
-      value: 100
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 408118066e0950c45b86d5e9e03e6f84, type: 2}
@@ -913,6 +831,11 @@ Prefab:
     - target: {fileID: 4886224237258436, guid: 1491bd2a3b1624a4487a2189f46c7cff, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114120357387158348, guid: 1491bd2a3b1624a4487a2189f46c7cff,
+        type: 2}
+      propertyPath: valoreInfezione
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1491bd2a3b1624a4487a2189f46c7cff, type: 2}
@@ -1376,6 +1299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182239cf577033b4facdd84fe986c7f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CAMERA_SPEED_FACTOR: 0.1
   player1: {fileID: 0}
   player2: {fileID: 0}
 --- !u!222 &1031070973
@@ -1576,6 +1500,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114918141294313560, guid: 408118066e0950c45b86d5e9e03e6f84,
+        type: 2}
+      propertyPath: valoreInfezione
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 68603017369497482, guid: 408118066e0950c45b86d5e9e03e6f84, type: 2}
   m_ParentPrefab: {fileID: 0}
@@ -1679,7 +1608,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infetto: 0
   SecondiPerInfezione: 0.5
-  valoreInfezione: 0
+  valoreInfezione: 10
 --- !u!212 &1161243060
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1772,7 +1701,7 @@ Prefab:
     - target: {fileID: 114974207076942034, guid: b0dab933c65fa024f95a39148f6f8917,
         type: 2}
       propertyPath: valoreInfezione
-      value: 100
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b0dab933c65fa024f95a39148f6f8917, type: 2}
@@ -2233,7 +2162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infetto: 0
   SecondiPerInfezione: 0.5
-  valoreInfezione: 0
+  valoreInfezione: 20
 --- !u!212 &1606706095
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2377,11 +2306,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4161754456571718, guid: 3cd8c6bfa46d4494eb2b0746eeff5f71, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 7.5471807
+      value: 34.39
       objectReference: {fileID: 0}
     - target: {fileID: 4161754456571718, guid: 3cd8c6bfa46d4494eb2b0746eeff5f71, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.23588419
+      value: 3.43
       objectReference: {fileID: 0}
     - target: {fileID: 4161754456571718, guid: 3cd8c6bfa46d4494eb2b0746eeff5f71, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2476,6 +2405,11 @@ Prefab:
     - target: {fileID: 4302482174052756, guid: 1491bd2a3b1624a4487a2189f46c7cff, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114761050071244662, guid: 1491bd2a3b1624a4487a2189f46c7cff,
+        type: 2}
+      propertyPath: valoreInfezione
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 68345073898948210, guid: 1491bd2a3b1624a4487a2189f46c7cff, type: 2}
@@ -2677,11 +2611,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4161754456571718, guid: 3cd8c6bfa46d4494eb2b0746eeff5f71, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -7.3316627
+      value: 34.93
       objectReference: {fileID: 0}
     - target: {fileID: 4161754456571718, guid: 3cd8c6bfa46d4494eb2b0746eeff5f71, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.7156916
+      value: -1.18
       objectReference: {fileID: 0}
     - target: {fileID: 4161754456571718, guid: 3cd8c6bfa46d4494eb2b0746eeff5f71, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3089,7 +3023,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4520778021377068, guid: b226074dc89912d4f89b83e4ecfcf824, type: 2}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 114486778709083582, guid: b226074dc89912d4f89b83e4ecfcf824,
         type: 2}

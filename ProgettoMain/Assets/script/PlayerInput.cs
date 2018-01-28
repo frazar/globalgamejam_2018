@@ -143,7 +143,7 @@ public class PlayerInput : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == GestoreTag.Contadini && 
-            collision.gameObject.GetComponent<AIContadino>().inseguimento) {
+            collision.gameObject.GetComponent<AIContadino>().inseguiSeVisibile) {
 
             Instantiate(tombaAstratto, 
                         this.gameObject.transform.position, 
