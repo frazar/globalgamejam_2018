@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Assertions;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -13,12 +14,19 @@ public class PlayerInput : MonoBehaviour {
     public float Moltiplicatore; // moltiplicagtore del movimento
     Rigidbody2D phy;
     float TempoIterazioneIniziale;
+    private GameObject testoSuggerimentoInfezione;
+
 	void Start () {
         phy = GetComponent<Rigidbody2D>();
+
+        testoSuggerimentoInfezione = GameObject.Find("/Main Camera/Canvas/TestoSuggerimentoInfezione");
+        Assert.IsNotNull(testoSuggerimentoInfezione);
 
         // Check that the playerIndex property was set correctly
         Assert.IsTrue(this.name == "player" + playerIndex);
 	}
+
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -53,11 +61,31 @@ public class PlayerInput : MonoBehaviour {
         {
             
             case GestoreTag.Edifici:    
-                //
                 ProcessoInfezioneEdifici(ColliderIn.gameObject);
             break;
         }
     }
+
+    void OnTriggerEnter2D(Collider2D ColliderIn) {
+        switch (ColliderIn.gameObject.tag)
+        {
+            case GestoreTag.Edifici:  
+                // L'edificio può essere infettato, mostra all'utente il suggerimento
+                testoSuggerimentoInfezione.GetComponent<Text>().enabled = true;
+            break;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D ColliderIn) {
+        switch (ColliderIn.gameObject.tag)
+        {
+            case GestoreTag.Edifici:  
+                // L'edificio non può più essere infettato, nascondi all'utente il suggerimento
+                testoSuggerimentoInfezione.GetComponent<Text>().enabled = false;
+            break;
+        }        
+    }
+
 
     void ProcessoInfezioneEdifici(GameObject Edificio)
     {
