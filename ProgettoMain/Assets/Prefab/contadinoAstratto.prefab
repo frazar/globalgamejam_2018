@@ -169,8 +169,8 @@ MonoBehaviour:
   _map: {fileID: 0}
   maxSpeed: 3.5
   mass: 20
-  stoppingDistance: 0.1
-  slowingDistance: 2
+  stoppingDistance: 0.3
+  slowingDistance: 0
   accelerationRate: 2
   decelerationRate: 2
   lookAheadDistance: 4
@@ -193,7 +193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebeb2e4b62ccd41358ba3bdf27df1c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteTomba: {fileID: 21300000, guid: 06efe415bb2626e4aaed6bd9947b4d9f, type: 3}
+  tombaAstratto: {fileID: 1672981744809900, guid: e9708a823a8c04b78a3982ebbbea859e,
+    type: 2}
   arrayVerticiPercorso:
   - {fileID: 0}
   - {fileID: 0}
