@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 114486778709083582}
   - component: {fileID: 114258283263356408}
   - component: {fileID: 50268605903375220}
-  - component: {fileID: 114683098149564902}
   - component: {fileID: 95797151068041234}
   - component: {fileID: 58448786917437178}
   m_Layer: 0
@@ -194,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebeb2e4b62ccd41358ba3bdf27df1c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteTomba: {fileID: 0}
+  spriteTomba: {fileID: 21300000, guid: 06efe415bb2626e4aaed6bd9947b4d9f, type: 3}
   arrayVerticiPercorso:
   - {fileID: 0}
   - {fileID: 0}
@@ -203,17 +202,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
---- !u!114 &114683098149564902
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1553658772163076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170997adf2232514aa4861c3e0a86037, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212084905883654924
 SpriteRenderer:
   m_ObjectHideFlags: 1
