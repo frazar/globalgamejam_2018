@@ -51,6 +51,9 @@ public class AIContadino : MonoBehaviour {
     void Start () {
         Assert.IsNotNull(tombaAstratto);
 
+        // Registra l'NPC
+        gestorePartita.AggingiNPC();
+
         spriteController = GetComponent<SpriteRenderer>();
         // Per avere un percorso sensato, servono almeno due punti
         Assert.IsTrue(arrayVerticiPercorso.Length >= 2);
@@ -66,6 +69,7 @@ public class AIContadino : MonoBehaviour {
         agent.OnDestinationReached += muovitiDestinazioneValida;
         agent.OnDestinationInvalid += muovitiDestinazioneInvalida;
         animazioniController = GetComponent<Animator>();
+
         // Parti con il primo movimento
         muoviti();
     }
@@ -150,6 +154,8 @@ public class AIContadino : MonoBehaviour {
 
     void muori() {
         Debug.Log("'" + this.gameObject.name + "' è morto!");
+
+        gestorePartita.AggingiNPCMorto();
         
         this.morto = true;            
         
@@ -170,6 +176,10 @@ public class AIContadino : MonoBehaviour {
     }
 
     void aumentaInfezione(int valoreInfezione) {
+        if (this.infezione == 0 && valoreInfezione >= 0) {
+            gestorePartita.AggiungiNPCInfetto();
+        }
+
         this.infezione += valoreInfezione;
 
         if (this.infezione >= 100) {
