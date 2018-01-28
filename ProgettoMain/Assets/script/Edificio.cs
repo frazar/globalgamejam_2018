@@ -21,4 +21,17 @@ public class Edificio : MonoBehaviour {
     void Update () {
         
     }
+
+    public void setInfetto(bool Infetto) {
+        if (!Infetto)
+        {
+            this.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+        else
+        {
+         this.GetComponent<SpriteRenderer>().color= Color.green;
+        }
+        this.infetto = Infetto;
+       
+    }
 }
