@@ -3350,6 +3350,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114120357387158348, guid: 1491bd2a3b1624a4487a2189f46c7cff,
+        type: 2}
+      propertyPath: valoreInfezione
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1491bd2a3b1624a4487a2189f46c7cff, type: 2}
   m_IsPrefabParent: 0
@@ -5089,7 +5094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infetto: 0
   SecondiPerInfezione: 0.5
-  valoreInfezione: 0
+  valoreInfezione: 50
 --- !u!212 &1161243060
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5620,7 +5625,7 @@ Prefab:
     - target: {fileID: 114974207076942034, guid: b0dab933c65fa024f95a39148f6f8917,
         type: 2}
       propertyPath: valoreInfezione
-      value: 100
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b0dab933c65fa024f95a39148f6f8917, type: 2}
@@ -6670,7 +6675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infetto: 0
   SecondiPerInfezione: 0.5
-  valoreInfezione: 0
+  valoreInfezione: 40
 --- !u!212 &1606706095
 SpriteRenderer:
   m_ObjectHideFlags: 0
