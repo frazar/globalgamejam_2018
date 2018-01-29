@@ -267,14 +267,14 @@ RectTransform:
   m_GameObject: {fileID: 297666518}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0475075, y: 1.0475073, z: 1.0475073}
   m_Children: []
   m_Father: {fileID: 679336509}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1591.0242, y: 370}
+  m_AnchoredPosition: {x: 1591.0242, y: 414}
   m_SizeDelta: {x: 883.6, y: 223.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &297666520
@@ -298,10 +298,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 99dbd5f1ca5756e4c9c00997ab240634, type: 3}
-    m_FontSize: 83
+    m_FontSize: 70
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 99
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -309,7 +309,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press 'E' or 'LEFT SHIFT' to infect
+  m_Text: Hold 'E' or 'LEFT SHIFT' to infect the doors
 --- !u!222 &297666521
 CanvasRenderer:
   m_ObjectHideFlags: 0
