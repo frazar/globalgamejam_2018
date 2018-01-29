@@ -9,10 +9,7 @@ public class scriptCartelli : MonoBehaviour {
     {
         if (collision.gameObject.tag=="player")
         {
-            if(Input.GetButtonDown("azione1")|| Input.GetButtonDown("azione2"))
-            {
-                SceneManager.LoadScene("level_1", LoadSceneMode.Single);
-            }
+            SceneManager.LoadScene("level_1", LoadSceneMode.Single);
         }
     }
     
