@@ -234,6 +234,11 @@ Prefab:
       propertyPath: Moltiplicatore
       value: 12000
       objectReference: {fileID: 0}
+    - target: {fileID: 114071956204177650, guid: 3cd8c6bfa46d4494eb2b0746eeff5f71,
+        type: 2}
+      propertyPath: VELOCITA
+      value: 12000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3cd8c6bfa46d4494eb2b0746eeff5f71, type: 2}
   m_IsPrefabParent: 0
@@ -907,6 +912,11 @@ Prefab:
         type: 2}
       propertyPath: playerIndex
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114071956204177650, guid: 3cd8c6bfa46d4494eb2b0746eeff5f71,
+        type: 2}
+      propertyPath: VELOCITA
+      value: 12000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3cd8c6bfa46d4494eb2b0746eeff5f71, type: 2}
