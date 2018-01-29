@@ -6988,7 +6988,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press the action key to infect
+  m_Text: Hold the action key to infect
 --- !u!222 &1626259977
 CanvasRenderer:
   m_ObjectHideFlags: 0
