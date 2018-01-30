@@ -34,15 +34,14 @@ public class controlloreCamera : MonoBehaviour {
             playerCounter++;
         }
 
-        // Se c'è almeno un player vivo
-        if (playerCounter > 0) {
-            targetPosition = targetPosition / playerCounter;
-            Vector3 currentPosition = transform.position;
+        Assert.IsTrue(playerCounter > 0);
 
-            Vector3 newPosition = Vector3.Lerp(currentPosition, targetPosition, CAMERA_SPEED_FACTOR);
-            newPosition[2] = -10; // Always stay above the scene
-            transform.position = newPosition;
-        }
+        targetPosition = targetPosition / playerCounter;
+        Vector3 currentPosition = transform.position;
+
+        Vector3 newPosition = Vector3.Lerp(currentPosition, targetPosition, CAMERA_SPEED_FACTOR);
+        newPosition[2] = -10; // Always stay above the scene
+        transform.position = newPosition;
 	}
 
 
