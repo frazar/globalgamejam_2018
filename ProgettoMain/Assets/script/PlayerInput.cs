@@ -13,7 +13,7 @@ public class PlayerInput : MonoBehaviour {
     [Range(1,2)]
     public int playerIndex = 1;
     [Range(1,12000)]
-    public float Moltiplicatore; // moltiplicagtore del movimento
+    public float VELOCITA; // moltiplicagtore del movimento
     Rigidbody2D phy;
     float TempoIterazioneIniziale;
     private GameObject testoSuggerimentoInfezione;
@@ -99,7 +99,7 @@ public class PlayerInput : MonoBehaviour {
         }
 
         // Movimento
-        phy.velocity = Vector3.Normalize(movimento) * Moltiplicatore  * Time.deltaTime;
+        phy.velocity = Vector3.Normalize(movimento) * VELOCITA  * Time.deltaTime;
 
         // Animazione
         exit = exit || (oldDirection != direction);
@@ -143,11 +143,13 @@ public class PlayerInput : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == GestoreTag.Contadini && 
-            collision.gameObject.GetComponent<AIContadino>().inseguimento) {
+            collision.gameObject.GetComponent<AIContadino>().inseguiSeVisibile) {
 
             Instantiate(tombaAstratto, 
                         this.gameObject.transform.position, 
                         Quaternion.identity);
+
+            Camera.main.gameObject.SendMessage("playerMorto", playerIndex);            
 
             // Deactivate the contadino gameObject               
             this.gameObject.SetActive(false);

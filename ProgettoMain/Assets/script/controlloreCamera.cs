@@ -5,8 +5,9 @@ using UnityEngine.Assertions;
 
 public class controlloreCamera : MonoBehaviour {
 
+    public float CAMERA_SPEED_FACTOR = 0.1f;
     private Vector3 pos1, pos2;
-
+    public GameObject menuove;
     public GameObject player1, player2;
     // Use this for initialization
 	void Start () {
@@ -18,10 +19,45 @@ public class controlloreCamera : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void LateUpdate () {
-        Vector3 pos1 = player1.transform.position;
-        Vector3 pos2 = player2.transform.position;
-        Vector3 media = new Vector3((pos1.x + pos2.x) / 2, (pos1.y + pos2.y) / 2, -10);
-        transform.position = media;
+	void LateUpdate () { 
+        // Calcola la posizione target come media delle posizione dei player attivi
+        Vector3 targetPosition = Vector3.zero;
+        int playerCounter = 0;
+
+        if (player1 != null) {
+            targetPosition += player1.transform.position;
+            playerCounter++;
+        } 
+
+        if (player2 != null) {
+            targetPosition += player2.transform.position;
+            playerCounter++;
+        }
+
+        // Se c'è almeno un player vivo
+        if (playerCounter > 0)
+        {
+            targetPosition = targetPosition / playerCounter;
+            Vector3 currentPosition = transform.position;
+
+            Vector3 newPosition = Vector3.Lerp(currentPosition, targetPosition, CAMERA_SPEED_FACTOR);
+            newPosition[2] = -10; // Always stay above the scene
+            transform.position = newPosition;
+        }
+        else {
+            // scontfitta
+            menuove.SendMessage("Sconfitta");
+        }
 	}
+
+
+    void playerMorto(int playerIndex) {
+        if (playerIndex == 1) {
+            player1 = null;            
+        } 
+
+        if (playerIndex == 2) {
+            player2 = null;
+        }
+    }
 }
